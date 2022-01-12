@@ -1,0 +1,6 @@
+export { default as Dashboard } from './Dashboard/index'
+export { default as Occurrences } from './Occurrences/index'
+export { default as Notifications } from './Notifications/index'
+export { default as Regions } from './Regions/index'
+export { default as Users } from './Users/index'
+export { default as Login } from './Login/index'

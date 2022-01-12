@@ -1,0 +1,38 @@
+name: Deploy main branch (AWS)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"    
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+          # role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          # role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
+          # role-duration-seconds: 1200
+          # role-session-name: MySessionName
+      - name: List aws config
+        run: aws configure list
+      - name: Install npm dependencies
+        run: npm install
+      - name: Build
+        run: npm run build   
+      - name: AWS Deploy
+        run: aws s3 sync build/ s3://cms.fogocruzado.org.br
