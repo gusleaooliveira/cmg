@@ -245,6 +245,7 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
 
     const [mostrarErro, setMostrarErro] = useState(false)
     const [erro, setErro] = useState('')
+    const [mostrarAcerto, setMostrarAcerto] = useState(false)
 
     return (
         <>
@@ -443,6 +444,8 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
                                                     getStateByID(resp.state)
                                                     getCityByID(resp.city)
                                                     console.log(resp, 'executo')
+
+                                                    setMostrarAcerto(true)
                                                 })
                                                 .catch((error)=>{
                                                     console.log('###############################')
@@ -478,6 +481,22 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
                         <Modal.Body>
                             <p>Verifique se todos os dados foram inseridos corretamente!</p>
                             <p>{erro}</p>
+                        </Modal.Body>
+                    </Modal>
+
+                    <Modal
+                        show={mostrarAcerto}
+                        onHide={() => setMostrarAcerto(false)}
+                        dialogClassName="modal-90w"
+                        aria-labelledby="example-custom-modal-styling-title"
+                    >
+                        <Modal.Header closeButton>
+                        <Modal.Title id="example-custom-modal-styling-title">
+                            A ocorrência foi salvar com sucesso
+                        </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>Ocorrência salva!</p>
                         </Modal.Body>
                     </Modal>
 
