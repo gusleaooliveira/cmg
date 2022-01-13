@@ -7,13 +7,13 @@ import civillianImg from './civillian.svg'
 import alertImg from './alert.svg'
 import localImg from './local.svg'
 import { useDispatch, useSelector } from 'react-redux'
-import { ADD_OCCURRENCES, ADD_STATES, ADD_REGIONS,ADD_CITIES, RootState } from '../../store'
-import { getOccurrences, getStates, getRegions, getCities, getState, getByState } from '../../services'
+import { ADD_OCCURRENCES, ADD_STATES, ADD_REGIONS,ADD_CITIES, RootState, ADD_SOURCES, ADD_REASONS, ADD_CLIPPINGS, ADD_TRANSPORTS } from '../../store'
+import { getOccurrences, getStates, getRegions, getCities, getState, getByState, getSourcers, getReasons, getClippings, getTransports } from '../../services'
 import { Form } from 'react-bootstrap'
 import { Search } from 'react-bootstrap-icons';
 
 const Occurrences: React.FC = ({}) => {
-    const { user, token, occurrences, regions, states, cities } = useSelector((state: RootState)=>state.clickState)
+    const { user, token, occurrences, regions, states, cities, sources , reasons, clippings, transports } = useSelector((state: RootState)=>state.clickState)
 
     const [isModalCriar, setModalCriar] = useState(false)
 
@@ -59,6 +59,10 @@ const Occurrences: React.FC = ({}) => {
         getStates(token).then((resp)=> dispatch({type: ADD_STATES, states: resp}))
         getRegions(token).then((resp)=> dispatch({type: ADD_REGIONS, regions: resp}))
         getCities(token).then((resp)=> dispatch({type: ADD_CITIES, cities: resp}))
+        getSourcers(token).then((resp)=> dispatch({type: ADD_SOURCES, sources: resp}))
+        getReasons(token).then((resp)=> dispatch({type: ADD_REASONS, reasons: resp}))
+        getClippings(token).then((resp)=> dispatch({type: ADD_CLIPPINGS, clippings: resp}))
+        getTransports(token).then((resp)=> dispatch({type: ADD_TRANSPORTS, transports: resp}))
 
         getState()
             .then((resp)=>{
