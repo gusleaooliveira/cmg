@@ -243,6 +243,9 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
 
     const [estadoNome, setEstadoNome] = useState('')
 
+    const [mostrarErro, setMostrarErro] = useState(false)
+    const [erro, setErro] = useState('')
+
     return (
         <>
             <Modal
@@ -365,57 +368,90 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
 
                                 <Col xs={2}>
                                     <Button variant="warning" onClick={()=>{
-                                        console.log(formik.values)
-                                        let obj = {
-                                            "address": formik.values.address,
-                                            "country": formik.values.country,
-                                            "state": formik.values.state,
-                                            "city": formik.values.city,
-                                            "neighborhood": formik.values.neighborhood,
-                                            "latitude": formik.values.latitude,
-                                            "longitude": formik.values.longitude,
-                                            "date": formik.values.date,
-                                            "agent_presence": formik.values.agent_presence,
-                                            "police_action": formik.values.police_action,
-                                            "number_civilians_dead": formik.values.number_civilians_dead,
-                                            "number_civilians_wounded": formik.values.number_civilians_wounded,
-                                            "number_agent_dead": formik.values.number_agent_dead,
-                                            "number_agent_wounded": formik.values.number_agent_wounded,
-                                            "description": formik.values.description,
-                                            "source": formik.values.source,
-                                            "related_record": formik.values.related_record,
-                                            "region": formik.values.region,
-                                            "main_reason": formik.values.main_reason,
-                                            "complementary_reasons": formik.values.complementary_reasons,
-                                            "massacre": formik.values.massacre,
-                                            "police_unit": formik.values.police_unit,
-                                            "interrupted_transport": formik.values.interrupted_transport,
-                                            "related_news": formik.values.related_news,
-                                            "clippings": formik.values.clippings,
-                                            "observations": formik.values.observations,
-                                            "transports": formik.values.transports,
-                                            "date_interruption": formik.values.date_interruption,
-                                            "release_date": formik.values.release_date,
-                                            "transport_description": formik.values.transport_description,
-                                            "status": formik.values.status
+                                        
+                                        if(formik.values.address == ''){
+                                            setErro('Selecione/Preencha o/a/os/as local')
+                                            setMostrarErro(true)
                                         }
-                                        createOccurrences(token, obj)
-                                            .then((resp)=>{ 
-                                                setIdOcorrencia(resp.id)
-                                                setFeridosCivisOcorrencia(resp.number_civilians_wounded)
-                                                setMortosCivisOcorrencia(resp.number_civilians_dead)
-                                                setFeridosAgenteOcorrencia(resp.number_agent_wounded)
-                                                setDescricaoOcorrencia(resp.description)
-                                                setMortosAgenteOcorrencia(resp.number_agent_dead)
-                                                setDataOcorrencia(resp.date)
-                                                getStateByID(resp.state)
-                                                getCityByID(resp.city)
-                                                console.log(resp, 'executo')
-                                            })
-                                            .catch((error)=>{
-                                                console.log(error)
-                                            })
+                                        if(formik.values.country == ''){
+                                            setErro('Selecione/Preencha o/a/os/as país')
+                                            setMostrarErro(true)
+                                        }
+                                        if(formik.values.state == ''){
+                                            setErro('Selecione/Preencha o/a/os/as estado')
+                                            setMostrarErro(true)
+                                        }
+                                        if(formik.values.city == ''){
+                                            setErro('Selecione/Preencha o/a/os/as cidade')
+                                            setMostrarErro(true)
+                                        }
+                                        if(formik.values.neighborhood == ''){
+                                            setErro('Selecione/Preencha o/a/os/as bairro')
+                                            setMostrarErro(true)
+                                        }
+                                        if(formik.values.date == ''){
+                                            setErro('Selecione/Preencha o/a/os/as data')
+                                            setMostrarErro(true)
+                                        }
+                                        else{
 
+                                            let obj = {
+                                                "address": formik.values.address ? formik.values.address : null ,
+                                                "country": formik.values.country ? formik.values.country : null ,
+                                                "state": formik.values.state ? formik.values.state : null ,
+                                                "city": formik.values.city ? formik.values.city : null ,
+                                                "neighborhood": formik.values.neighborhood ? formik.values.neighborhood : null ,
+                                                "latitude": formik.values.latitude ? formik.values.latitude : null ,
+                                                "longitude": formik.values.longitude ? formik.values.longitude : null ,
+                                                "date": formik.values.date ? formik.values.date : null ,
+                                                "agent_presence": formik.values.agent_presence ? formik.values.agent_presence : true ,
+                                                "police_action": formik.values.police_action ? formik.values.police_action : true,
+                                                "number_civilians_dead": formik.values.number_civilians_dead ? formik.values.number_civilians_dead : 0 ,
+                                                "number_civilians_wounded": formik.values.number_civilians_wounded ? formik.values.number_civilians_wounded : 0 ,
+                                                "number_agent_dead": formik.values.number_agent_dead ? formik.values.number_agent_dead : 0 ,
+                                                "number_agent_wounded": formik.values.number_agent_wounded ? formik.values.number_agent_wounded : 0 ,
+                                                "description": formik.values.description ? formik.values.description : null ,
+                                                "source": formik.values.source ? formik.values.source : null ,
+                                                "related_record": formik.values.related_record ? formik.values.related_record : null ,
+                                                "region": formik.values.region ? formik.values.region : null ,
+                                                "main_reason": formik.values.main_reason ? formik.values.main_reason : null ,
+                                                "complementary_reasons": formik.values.complementary_reasons ? formik.values.complementary_reasons : null ,
+                                                "massacre": formik.values.massacre ? formik.values.massacre : true ,
+                                                "police_unit": formik.values.police_unit ? formik.values.police_unit : null ,
+                                                "interrupted_transport": formik.values.interrupted_transport ? formik.values.interrupted_transport : true ,
+                                                "related_news": formik.values.related_news ? formik.values.related_news : null ,
+                                                "clippings": formik.values.clippings ? formik.values.clippings : null ,
+                                                "observations": formik.values.observations ? formik.values.observations : null ,
+                                                "transports": formik.values.transports ? formik.values.transports : null ,
+                                                "date_interruption": formik.values.date_interruption ? formik.values.date_interruption : null ,
+                                                "release_date": formik.values.release_date ? formik.values.release_date : null ,
+                                                "transport_description": formik.values.transport_description ? formik.values.transport_description : null ,
+                                                "status": formik.values.status ? formik.values.status : null 
+                                                
+                                            }
+
+                                            // console.log(formik.values)
+                                            console.log(obj, 'obj')
+                                            createOccurrences(token, obj)
+                                                .then((resp)=>{ 
+                                                    setIdOcorrencia(resp.id)
+                                                    setFeridosCivisOcorrencia(resp.number_civilians_wounded)
+                                                    setMortosCivisOcorrencia(resp.number_civilians_dead)
+                                                    setFeridosAgenteOcorrencia(resp.number_agent_wounded)
+                                                    setDescricaoOcorrencia(resp.description)
+                                                    setMortosAgenteOcorrencia(resp.number_agent_dead)
+                                                    setDataOcorrencia(resp.date)
+                                                    getStateByID(resp.state)
+                                                    getCityByID(resp.city)
+                                                    console.log(resp, 'executo')
+                                                })
+                                                .catch((error)=>{
+                                                    console.log('###############################')
+                                                    console.error(error, 'erro ocorrencia')
+                                                    console.log('###############################')
+                                                    setMostrarErro(true)
+                                                })
+                                        }
                                     }}>
                                         Salvar ocorrencia
                                     </Button>
@@ -428,6 +464,23 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
                             background: '#ccc'
                         }}
                     >
+
+                <Modal
+                        show={mostrarErro}
+                        onHide={() => setMostrarErro(false)}
+                        dialogClassName="modal-90w"
+                        aria-labelledby="example-custom-modal-styling-title"
+                    >
+                        <Modal.Header closeButton>
+                        <Modal.Title id="example-custom-modal-styling-title">
+                            Ocorreu um erro
+                        </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>Verifique se todos os dados foram inseridos corretamente!</p>
+                            <p>{erro}</p>
+                        </Modal.Body>
+                    </Modal>
 
 
                     <Form onSubmit={formik.handleSubmit}>
@@ -582,6 +635,7 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
                                                 value={formik.values.police_action}
                                                 onChange={(e: boolean)=>{
                                                     formik.setFieldValue('police_action', e)
+                                                    formik.setFieldValue('agent_presence', e)
                                                 }}
                                             />
                                         </Form.Group>
@@ -604,9 +658,13 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
                                                 <RadioGroup
                                                     value={formik.values.agent_presence}
                                                     onChange={(e: boolean)=>{
+                                                        formik.setFieldValue('police_action', e)
                                                         formik.setFieldValue('agent_presence', e)
                                                     }}
                                                 />
+
+                                                {/* <p>{formik.values.police_action ? 'Sim Ação policia' : 'Não Ação policia'}</p>
+                                                <p>{formik.values.agent_presence ? 'Sim agente presente' : 'Não agente presente'}</p> */}
                                         </Form.Group>
                                     </Col>
                                     <Col>

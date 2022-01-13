@@ -10,7 +10,7 @@ export function createStates(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Estados) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -23,7 +23,7 @@ export function createUsers(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Usuários) Erro:', erro); 
-                    return null
+                    return erro
                 })
 
 }
@@ -37,7 +37,7 @@ export function createOccurrences(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Ocorrencias) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -50,7 +50,7 @@ export function createVictims(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Vitimas) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -63,7 +63,7 @@ export function createQuestions(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Questões) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -76,7 +76,7 @@ export function createPolicies(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Políticas) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -89,7 +89,7 @@ export function createSourcers(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Fontes) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -102,7 +102,7 @@ export function createReasons(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Motívo) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -115,7 +115,7 @@ export function createClippings(token: string, dados: any) {
                 })
                 .catch((erro) => { 
                     console.warn('(Recorte) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -128,7 +128,7 @@ export function createTransports(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Transportes) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -141,7 +141,7 @@ export function createQualifications(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Qualificações) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -154,7 +154,7 @@ export function createStatus(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Status) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -167,7 +167,7 @@ export function createRegions(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Regiões) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -180,7 +180,7 @@ export function createCircumstances(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Circuunstancias) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -193,7 +193,7 @@ export function createCities(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Cidades) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -206,7 +206,7 @@ export function createNeighborhoods(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Bairro) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -220,7 +220,7 @@ export function createAgeGroup(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Faixa etária) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -234,7 +234,7 @@ export function createGenres(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Generos) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -247,7 +247,7 @@ export function createPlaces(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Lugar/Local) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -261,7 +261,7 @@ export function createPositions(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Posições) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -274,7 +274,7 @@ export function createCoorporations(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Corporações) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -287,7 +287,7 @@ export function createAnimals(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Animais) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
 
@@ -301,6 +301,6 @@ export function createSocialNetworks(token: string, dados: any){
                 })
                 .catch((erro) => { 
                     console.warn('(Redes sociais) Erro:', erro); 
-                    return null
+                    return erro
                 })
 }
