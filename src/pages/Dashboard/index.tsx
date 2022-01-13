@@ -20,7 +20,8 @@ import {
     TotalOccurrences,
     TotalContent,
     ProgressContent,
-    Progress
+    Progress,
+    CardHeader
 } from './index.styled';
 import { 
     Image, 
@@ -49,6 +50,8 @@ import redAgent from '../../assets/agentesMortos.png'
 import redPerson from '../../assets/civisMortos.png'
 import semVitimas from '../../assets/semVitimas.png'
 import DataInput from '../../components/DataInput';
+import Select from '../../components/Select';
+import MultipleSelect from '../../components/MultipleSelect';
 
 const Dashboard: React.FC = ({ children }) => {
     const { token, statistics } = useSelector((state: RootState) => state.clickState)
@@ -64,6 +67,19 @@ const Dashboard: React.FC = ({ children }) => {
         console.log(statistics)
     }, [])
 
+    const postMock = [
+        {value: 'null', label: 'Selecione um estado'},
+        {value: 'Rio de Janeiro', label: 'Rio de Janeiro'},
+        {value: 'Pernanbuco', label: 'Pernanbuco'},
+    ]
+
+    const postMock1 = [
+        {value: 'null', label: 'Selecione uma cidade'}
+    ]
+
+    const postMock2 = [
+        {value: 'null', label: 'Selecione um bairro'},
+    ]
     
     return (
         <Container>
@@ -76,7 +92,7 @@ const Dashboard: React.FC = ({ children }) => {
                             name='intialDate'
                             htmlFor='intialDate'
                         />
-                        <p>a</p>
+                        <p style={{marginLeft: '15px', marginRight: '15px'}}>a</p>
                         <DataInput 
                             id='finalDate'                        
                             name='finalDate'
@@ -85,59 +101,66 @@ const Dashboard: React.FC = ({ children }) => {
                     </div>
                 </RowTop>
                 <RowCenter>
-                    <select>
-                        <option value="">Rio de janeiro</option>
-                    </select>
-                    <select>
-                        <option value="">Rio de janeiro</option>
-                    </select>
-                    <select>
-                        <option value="">Rio de janeiro</option>
-                    </select>
+                    <Select 
+                        ariaLabel='estado'
+                        label='Selecione o estado'
+                        list={postMock}
+                    />
+                    <div><Select 
+                        ariaLabel='estado'
+                        label='Selecione o estado'
+                        list={postMock1}
+                    />
+                    <Select 
+                        ariaLabel='estado'
+                        label='Selecione o estado'
+                        list={postMock2}
+                    />
+                    </div>
                 </RowCenter>
                 <RowBottom>
-                    <div>
+                    <CardHeader>
                         <img src={orangePerson} style={{width: '48px', height: '48px'}}/>
                             <div>
-                                <p>400</p>
+                                <h3>400</h3>
                                 <p>Tiroteios/disparos</p>
                             </div>
-                    </div>
-                    <div>
+                    </CardHeader>
+                    <CardHeader>
                         <img src={semVitimas} style={{width: '48px', height: '48px'}}/>
                             <div>
-                                <p>200</p>
+                                <h3>200</h3>
                                 <p>Sem vitimas</p>
                             </div>
-                    </div>
-                    <div>
+                    </CardHeader>
+                    <CardHeader>
                         <img src={redPerson} style={{width: '48px', height: '48px'}}/>
                             <div>
-                                <p>50</p>
+                                <h3>50</h3>
                                 <p>Civis mortos</p>
                             </div>
-                    </div>
-                    <div>
+                    </CardHeader>
+                    <CardHeader>
                         <img src={redAgent} style={{width: '48px', height: '48px'}}/>
                             <div>
-                                <p>30</p>
+                                <h3>30</h3>
                                 <p>Agentes mortos</p>
                             </div>
-                    </div>
-                    <div>
+                    </CardHeader>
+                    <CardHeader>
                         <img src={orangePerson} style={{width: '48px', height: '48px'}}/>
                             <div>
-                                <p>50</p>
+                                <h3>50</h3>
                                 <p>Civis feridos</p>
                             </div>
-                    </div>
-                    <div>
+                    </CardHeader>
+                    <CardHeader>
                         <img src={orangeAgent} style={{width: '48px', height: '48px'}}/>
                             <div>
-                                <p>70</p>
+                                <h3>70</h3>
                                 <p>Agentes feridos</p>
                             </div>
-                    </div>
+                    </CardHeader>
                 </RowBottom>
             </SectionTop>
             <p style={{marginBottom: '20px'}}>Visualizando dados do período selecionado (01/10/2021 até 30/10/2021)</p>

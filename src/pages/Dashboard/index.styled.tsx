@@ -21,6 +21,34 @@ export const SectionTop = styled.div`
     }
 `;
 
+export const CardHeader = styled.div`
+    margin-top: 20px;
+    display: flex;
+
+    > img {
+        margin-right: 12px;
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    }
+
+    > div {
+        > h3 {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 22px;
+            color: ${props => props.theme.colors.tertiary};
+        }
+
+        > p {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 18px;
+            color: ${props => props.theme.colors.tertiary};
+        }
+    }
+`;
+
 export const RowTop = styled.div`
     display: flex;
     justify-content: space-between;
@@ -48,6 +76,24 @@ export const RowTop = styled.div`
 export const RowCenter = styled.div`
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
+
+    > div:nth-child(1) {
+        width: 280px;
+    }
+
+    > div:nth-child(2) {
+        width: 1170px;
+        display: flex;
+        justify-content: space-between;
+        > div {
+            width: 49%;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+
 `;
 
 export const RowBottom = styled.div`

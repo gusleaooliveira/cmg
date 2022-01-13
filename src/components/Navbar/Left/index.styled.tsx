@@ -9,6 +9,7 @@ export const Navigation = styled.div`
     padding: 32px 16px;
     position: fixed;
     box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.06);
+    background-color: ${props => props.theme.colors.gray};
 `;
 
 export const Nav = styled.nav`
@@ -23,7 +24,7 @@ export const NavIcon = styled.div`
     }
 `;
 
-export const NavContent = styled.div`
+export const NavContent = styled(Link)`
     cursor: pointer;
     display: flex;
     flex-direction: row;
@@ -35,11 +36,30 @@ export const NavContent = styled.div`
     padding: 9px 13px;
     margin-bottom: 8px;
     margin-top: 8px;
+    text-decoration: none;
+
+    :hover {
+        background-color: ${props => props.theme.colors.secondary};
+        color: ${props => props.theme.colors.white};
+
+        > img {
+            background-color: red;
+        }
+
+        > p {
+            color: red;
+        }
+    }
 `;
 
-export const Item = styled(Link)`
+export const Item = styled.p`
     color: rgba(110, 107, 123, 1);
     text-decoration: none;
+    padding: 0 !important;
+    margin-top: 0 !important;
+    margin-left: 10px !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
 
     :hover {
 
