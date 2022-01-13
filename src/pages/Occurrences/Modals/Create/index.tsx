@@ -368,7 +368,6 @@ const ModalCriar: React.FC<InterfaceProps> = ({ isModal, onHide }) =>{
 
                                 <Col xs={2}>
                                     <Button variant="warning" onClick={()=>{
-                                        
                                         if(formik.values.address == ''){
                                             setErro('Selecione/Preencha o/a/os/as local')
                                             setMostrarErro(true)
