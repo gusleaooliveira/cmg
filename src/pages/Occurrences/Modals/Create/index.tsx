@@ -217,44 +217,50 @@ const ModalCriar : React.FC<IProps> = ({
                         let interrupted_transport = Boolean(dados.interrupted_transport)
                         let massacre =Boolean(dados.massacre)
 
-                        let aux = {
-                            clippings: clippingsList,
-                            transports: transportList,
-                            state: idEstado,
-                            city: idCidade,
-                            source: dados.source_s,
-                            address: dados.address,
-                            description: dados.description,
-                            latitude: dados.latitude,
-                            longitude: dados.longitude,
-                            region: idRegiao,
-                            status: dados.status,
-                            related_news: dados.related_news,
-                            related_record: dados.related_record,
-                            release_date: dados.release_date,
-                            transport_description: dados.transport_description,
-                            observations: dados.observations,
-                            agent_presence: agent_presence,
-                            police_action: police_action,
-                            interrupted_transport: interrupted_transport,
-                            complementary_reasons: complementaryReasonsList,
-                            country: dados.country,
-                            neighborhood: idBairro,
-                            date: dados.date,
-                            number_civilians_dead: 0,
-                            number_civilians_wounded: 0,
-                            number_agent_dead: 0,
-                            number_agent_wounded: 0,
-                            main_reason: dados.main_reason,
-                            masscre: massacre,
-                            police_unit: dados.police_unit,
-                            date_interruption: dados.date_interruption
-                        }
+                        let aux  = {}
+                        
+                            aux = {
+                                clippings: clippingsList,
+                                transports:  dados.interrupted_transport == 'true' ? transportList : null,
+                                state: idEstado,
+                                city: idCidade,
+                                source: dados.source_s,
+                                address: dados.address,
+                                description: dados.description,
+                                latitude: dados.latitude,
+                                longitude: dados.longitude,
+                                region: idRegiao,
+                                status: dados.status,
+                                related_news: dados.related_news,
+                                related_record: dados.related_record,
+                                release_date: dados.interrupted_transport == 'true'  ? dados.release_date: null ,
+                                transport_description: dados.interrupted_transport == 'true' ? dados.transport_description: null ,
+                                observations: dados.observations,
+                                agent_presence: agent_presence,
+                                police_action: police_action,
+                                interrupted_transport: interrupted_transport,
+                                complementary_reasons: complementaryReasonsList,
+                                country: dados.country,
+                                neighborhood: idBairro,
+                                date: dados.date,
+                                number_civilians_dead: 0,
+                                number_civilians_wounded: 0,
+                                number_agent_dead: 0,
+                                number_agent_wounded: 0,
+                                main_reason: dados.main_reason,
+                                masscre: massacre,
+                                police_unit: dados.police_unit,
+                                date_interruption: dados.interrupted_transport == 'true'  ? dados.date_interruption : null 
+                            }
 
-                        console.log(aux)
+                       
+                            console.log('Transporte interrompido?', dados.interrupted_transport == 'false') 
+
+
                         
                         createOccurrences(token, aux)
                             .then((resp)=>{
+                                console.log(resp)
                                 console.log('executou')
                                 setSucessoMsg(true)
                             })
@@ -639,6 +645,7 @@ const ModalCriar : React.FC<IProps> = ({
                                         onChange={()=> {
                                             setFieldValue('interrupted_transport', 'true')
                                         }}
+                                        onBlur={handleBlur('interrupted_transport')}
                                         checked={values.interrupted_transport == 'true'}
                                         label="Sim"
                                     />
@@ -650,13 +657,8 @@ const ModalCriar : React.FC<IProps> = ({
                                         value="false"
                                         onChange={()=> {
                                             setFieldValue('interrupted_transport', 'false')
-                                            setFieldValue('transports', [''])
-                                            setFieldValue('date_interruption', '')
-                                            setFieldValue('release_date', '')
-                                            setFieldValue('transport_description', '')
-                                            
-                                            
                                         }}
+                                        onBlur={handleBlur('interrupted_transport')}
                                         checked={values.interrupted_transport == 'false'}
                                         label="Não"
                                     />
@@ -665,12 +667,14 @@ const ModalCriar : React.FC<IProps> = ({
                                 <p className="text-error">{errors.interrupted_transport}</p>}
                             </div>
 
-                            
+                                    {values.interrupted_transport ? 'Interrompido': 'Não'}
+
                             <div >
                                 <label htmlFor="transports">tipo de transporte</label>
                                 <Form.Select
                                     name="transports"
                                     onChange={handleChange('transports')}
+                                    onBlur={handleBlur('transports')}                                    
                                     value={values.transports}
                                     multiple
                                     disabled={values.interrupted_transport == 'false'}
@@ -699,7 +703,7 @@ const ModalCriar : React.FC<IProps> = ({
                             </div>
 
                             <div>
-                                <label htmlFor="release_date">Data da interrupção</label>
+                                <label htmlFor="release_date">Data da liberação</label>
                                 <Form.Control
                                     type="datetime-local"
                                     name="release_date"

@@ -8,7 +8,7 @@ import alertImg from './alert.svg'
 import localImg from './local.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { ADD_OCCURRENCES, ADD_STATES, ADD_REGIONS,ADD_CITIES, RootState, ADD_SOURCES, ADD_REASONS, ADD_CLIPPINGS, ADD_TRANSPORTS, ADD_NEIGHBORHOODS } from '../../store'
-import { getOccurrences, getStates, getRegions, getCities, getState, getByState, getSourcers, getReasons, getClippings, getTransports, getNeighborhoods } from '../../services'
+import { getOccurrences, getStates, getRegions, getCities, getState, getByState, getSourcers, getReasons, getClippings, getTransports, getNeighborhoods, deleteOccurrences } from '../../services'
 import { Form } from 'react-bootstrap'
 import { Search } from 'react-bootstrap-icons';
 
@@ -80,6 +80,16 @@ const Occurrences: React.FC = ({}) => {
         console.log(occurrences, 'ocorrencias')
     }, [estado])
 
+
+    useEffect(()=>{
+        getOccurrences(token)
+        .then((resp)=>{
+            dispatch({
+                type: ADD_OCCURRENCES,
+                occurrences: resp
+            })
+        })
+    }, [])
     
 
     function convertData(data: any){
@@ -97,7 +107,7 @@ const Occurrences: React.FC = ({}) => {
     }
 
     const [isTela, setTela] = useState(true)
-    const [idOcorrenciaUnica, setIdOcorrenciaUnica ] = useState(occurrences[0].id)
+    const [idOcorrenciaUnica, setIdOcorrenciaUnica ] = useState('')
 
     return (
         <>
@@ -236,7 +246,19 @@ const Occurrences: React.FC = ({}) => {
                                                                     {chave.description}
                                                                 </div>
                                                                 <div>
-                                                                    <Button variant="danger">
+                                                                    <Button variant="danger" onClick={()=>{
+                                                                        deleteOccurrences(token, chave.id)
+                                                                            .then((resp)=>{
+                                                                                console.log('apagado!!!!')
+                                                                                getOccurrences(token)
+                                                                                    .then((resp)=>{
+                                                                                        dispatch({
+                                                                                            type: ADD_OCCURRENCES,
+                                                                                            occurrences: resp
+                                                                                        })
+                                                                                    })
+                                                                            })
+                                                                    }}>
                                                                         Reprovar
                                                                     </Button>
                                                                     <Button variant="warning">
@@ -320,9 +342,21 @@ const Occurrences: React.FC = ({}) => {
                                                                             {chave.description}
                                                                         </div>
                                                                         <div>
-                                                                            <Button variant="danger">
-                                                                                Reprovar
-                                                                            </Button>
+                                                                        <Button variant="danger" onClick={()=>{
+                                                                        deleteOccurrences(token, chave.id)
+                                                                            .then((resp)=>{
+                                                                                console.log('apagado!!!!')
+                                                                                getOccurrences(token)
+                                                                                    .then((resp)=>{
+                                                                                        dispatch({
+                                                                                            type: ADD_OCCURRENCES,
+                                                                                            occurrences: resp
+                                                                                        })
+                                                                                    })
+                                                                            })
+                                                                    }}>
+                                                                        Reprovar
+                                                                    </Button>
                                                                             <Button variant="warning">
                                                                                 Aprovar
                                                                             </Button>
