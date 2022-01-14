@@ -112,10 +112,13 @@ export const Date = styled.div`
 
 export const Content = styled.div`
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 `;
 
 export const ContentLeft = styled.div`
     > div {
+        width: 320px;
         > div {
             display: flex;
             align-items: center;
@@ -155,5 +158,112 @@ export const ContentRight = styled.div`
             color: #6E6B7B;
             opacity: 0.6;
         }
+    }
+`;
+
+export const SectionBtn = styled.div`
+    float: right;
+    display: flex;
+`;
+
+export const Aprove = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #28C76F;
+    border-radius: 6px;
+    border: none;
+    padding: 11px 54px;
+    margin-left: 20px;
+
+    > img {
+        margin-right: 10px;
+    }
+
+    > p {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: ${props => props.theme.colors.white};
+    }
+`;
+
+export const Reprove = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EA5455;
+    border-radius: 6px;
+    border: none;
+    padding: 11px 54px;
+
+    > img {
+        margin-right: 10px;
+    }
+
+    > p {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: ${props => props.theme.colors.white};
+    }
+`;
+
+export const Disapproved = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EA545550;
+    border-radius: 6px;
+    border: none;
+    padding: 11px 54px;
+
+    > img {
+        margin-right: 10px;
+    }
+
+    > p {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #EA5455;
+    }
+`;
+
+export const Approved = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(40, 199, 111, 0.1);
+    border-radius: 6px;
+    border: none;
+    padding: 11px 54px;
+
+    > img {
+        margin-right: 10px;
+    }
+
+    > p {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #28C76F;
+    }
+`;
+
+export const Edit = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    border: 1px solid #2C3941;
+    background-color: ${props => props.theme.colors.white};
+    padding: 11px 54px;
+    margin-left: 20px;
+
+    > img {
+        margin-right: 10px;
+    }
+
+    > p {
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #2C3941;
     }
 `;

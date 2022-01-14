@@ -280,6 +280,7 @@ export type typeState = {
                 string,
             ],
             "document_number": number,
+            "createdAt": string
         }
     ],
     idVictims: number       
