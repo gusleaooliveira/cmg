@@ -45,7 +45,7 @@ export function deleteUsers(token: string, id: string){
 
 export function deleteOccurrences(token: string, id: string){
     return api
-                .delete(`/occurences/${id}`, { 'headers': { 'Authorization': `Bearer ${token}` } })
+                .delete(`/occurrences/${id}`, { 'headers': { 'Authorization': `Bearer ${token}` } })
                 .then((resposta) => {
                     let resp = resposta.data
                     return resp
