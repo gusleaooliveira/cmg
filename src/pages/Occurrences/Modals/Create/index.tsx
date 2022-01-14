@@ -11,7 +11,7 @@ import './styles.css'
 const ModalCriar : React.FC<IProps> = ({
     isModal, onHide
 }) =>{
-    const {neighborhoods, occurrences, token, states, regions, cities, sources, reasons, clippings, transports, qualifications } = useSelector((state: RootState) => state.clickState)
+    const {neighborhoods, occurrences, token, states, regions, cities, sources, reasons, clippings, transports, qualifications, age_group, genres, circumstances  } = useSelector((state: RootState) => state.clickState)
     const dispatch = useDispatch()
 
     const [cidades, setCidades] = useState<any>([])
@@ -792,11 +792,14 @@ const ModalCriar : React.FC<IProps> = ({
                             name: "",
                             age: 0,
                             genre: "",
+                            genre_s: "",
+                            circumstances_s: "",
                             circumstances: [
                               ""
                             ],
                             place: "",
                             age_group: "",
+                            age_group_s: "",
                             general_observation: "",
                             qualifications: [
                                 ""
@@ -903,6 +906,101 @@ const ModalCriar : React.FC<IProps> = ({
                                             {(errors.qualifications && touched.qualifications) &&
                                             <p className="text-error">{errors.qualifications}</p>}
                                         </Form.Group>
+                                    </Col> 
+                                    
+                                </Row>
+
+                                <Row>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="name">Nome</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="name"
+                                                onChange={handleChange('name')}
+                                                onBlur={handleBlur('name')}
+                                                value={values.name}
+                                            />  
+                                            {(errors.name && touched.name) &&
+                                            <p className="text-error">{errors.name}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="age">Idade</label>
+                                            <Form.Control 
+                                                type="number"
+                                                name="age"
+                                                min="0"
+                                                max="120"
+                                                onChange={handleChange('age')}
+                                                onBlur={handleBlur('age')}
+                                                value={values.age}
+                                            />  
+                                            {(errors.age && touched.age) &&
+                                            <p className="text-error">{errors.age}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="age_group_s">Faixa etária</label>
+                                            <Form.Select
+                                                name="age_group_s"
+                                                onChange={(e: any)=>{
+                                                    console.log(e.target.value, e.currentTarget.selectedOptions[0].label)
+                                                    setFieldValue('age_group', e.currentTarget.selectedOptions[0].label)
+                                                    setFieldValue('age_group_s', e.target.value)
+                                                }}
+                                                onBlur={handleBlur('age_group_s')}
+                                                value={values.age_group_s}
+                                                >
+                                                {age_group.map((chave: any, valor: any) => {
+                                                    return <option value={chave.id}>{chave.name}</option>
+                                                })}
+                                            </Form.Select>
+                                            {(errors.age_group_s && touched.age_group_s) &&
+                                            <p className="text-error">{errors.age_group_s}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="genre_s">Gênero</label>
+                                            <Form.Select
+                                                name="genre_s"
+                                                onChange={(e: any)=>{
+                                                    console.log(e.target.value, e.currentTarget.selectedOptions[0].label)
+                                                    setFieldValue('genre', e.currentTarget.selectedOptions[0].label)
+                                                    setFieldValue('genre_s', e.target.value)
+                                                }}
+                                                onBlur={handleBlur('genre_s')}
+                                                value={values.genre_s}
+                                                >
+                                                {genres.map((chave: any, valor: any) => {
+                                                    return <option value={chave.id}>{chave.name}</option>
+                                                })}
+                                            </Form.Select>
+                                            {(errors.genre_s && touched.genre_s) &&
+                                            <p className="text-error">{errors.genre_s}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group >
+                                            <label htmlFor="circumstances">Motivos complementares</label>
+                                            <Form.Select
+                                                name="circumstances"
+                                                onChange={handleChange('circumstances')}
+                                                value={values.circumstances}
+                                                multiple
+                                                >
+                                                {circumstances.map(chave => {
+                                                    return <option value={chave.id}>{chave.name}</option>
+                                                })}
+                                            </Form.Select>
+                                            {(errors.circumstances && touched.circumstances) &&
+                                            <p className="text-error">{errors.circumstances}</p>}
+                                        </Form.Group>                                                
                                     </Col>
                                 </Row>
                             </Card>

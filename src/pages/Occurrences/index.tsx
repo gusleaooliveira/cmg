@@ -7,13 +7,13 @@ import civillianImg from './civillian.svg'
 import alertImg from './alert.svg'
 import localImg from './local.svg'
 import { useDispatch, useSelector } from 'react-redux'
-import { ADD_OCCURRENCES, ADD_STATES, ADD_REGIONS,ADD_CITIES, RootState, ADD_SOURCES, ADD_REASONS, ADD_CLIPPINGS, ADD_TRANSPORTS, ADD_NEIGHBORHOODS, ADD_QUALIFICATIONS } from '../../store'
-import { getOccurrences, getStates, getRegions, getCities, getState, getByState, getSourcers, getReasons, getClippings, getTransports, getNeighborhoods, deleteOccurrences, getQualifications } from '../../services'
+import { ADD_OCCURRENCES, ADD_STATES, ADD_REGIONS,ADD_CITIES, RootState, ADD_SOURCES, ADD_REASONS, ADD_CLIPPINGS, ADD_TRANSPORTS, ADD_NEIGHBORHOODS, ADD_QUALIFICATIONS, ADD_AGE_GROUP, ADD_GENRES, ADD_CIRCUMSTANCES } from '../../store'
+import { getOccurrences, getStates, getRegions, getCities, getState, getByState, getSourcers, getReasons, getClippings, getTransports, getNeighborhoods, deleteOccurrences, getQualifications, getAgeGroup, getGenres, getCircumstances } from '../../services'
 import { Form } from 'react-bootstrap'
 import { Search } from 'react-bootstrap-icons';
 
 const Occurrences: React.FC = ({}) => {
-    const { neighborhoods, user, token, occurrences, regions, states, cities, sources , reasons, clippings, transports, qualifications } = useSelector((state: RootState)=>state.clickState)
+    const { neighborhoods, user, token, occurrences, regions, states, cities, sources , reasons, clippings, transports, qualifications, age_group } = useSelector((state: RootState)=>state.clickState)
 
     const [isModalCriar, setModalCriar] = useState(false)
 
@@ -65,6 +65,9 @@ const Occurrences: React.FC = ({}) => {
         getTransports(token).then((resp)=> dispatch({type: ADD_TRANSPORTS, transports: resp}))
         getNeighborhoods(token).then((resp)=> dispatch({type: ADD_NEIGHBORHOODS, neighborhoods: resp}))
         getQualifications(token).then((resp)=> dispatch({type: ADD_QUALIFICATIONS, qualifications: resp}))
+        getAgeGroup(token).then((resp) => dispatch({type: ADD_AGE_GROUP, age_group: resp}))
+        getGenres(token).then((resp)=> dispatch({type: ADD_GENRES, genres: resp}))
+        getCircumstances(token).then((resp)=> dispatch({type: ADD_CIRCUMSTANCES, circumstances: resp }))
 
         getState()
             .then((resp)=>{
