@@ -42,14 +42,60 @@ export const NavContent = styled(Link)`
         background-color: ${props => props.theme.colors.secondary};
         color: ${props => props.theme.colors.white};
 
-        > img {
-            background-color: red;
+        > p {
+            color: ${props => props.theme.colors.white};
         }
 
-        > p {
-            color: red;
+        > img {
+            filter: brightness(2.25);
         }
     }
+
+    :focus {
+        background-color: ${props => props.theme.colors.secondary};
+        color: ${props => props.theme.colors.white};
+
+        > p {
+            color: ${props => props.theme.colors.white};
+        }
+
+        > img {
+            filter: brightness(2.25);
+        }
+    }
+`;
+
+export const Icon = styled.img`
+
+`;
+
+export const IconSite = styled.img`
+
+`;
+
+export const SelectSite = styled.div`
+    background-color: #F8F8F8;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 9px 13px;
+
+    > p {
+        padding: 0 !important;
+        margin-top: 0 !important;
+        margin-left: 10px !important;
+        margin-right: 40px !important;
+        margin-bottom: 0 !important;
+    }
+        
+`;
+
+export const ItemsSite = styled.div`
+    display: flex;
+    flex-direction: column;
+    background-color: ${props => props.theme.colors.white};
+    color: rgba(110, 107, 123, 1);
+    text-decoration: none;
 `;
 
 export const Item = styled.p`
@@ -60,8 +106,4 @@ export const Item = styled.p`
     margin-left: 10px !important;
     margin-right: 0 !important;
     margin-bottom: 0 !important;
-
-    :hover {
-
-    }
 `;
