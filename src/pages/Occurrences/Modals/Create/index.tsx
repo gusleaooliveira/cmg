@@ -5,17 +5,18 @@ import * as Yup from 'yup'
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../../store"
-import { createCities, getByState, getCities, getState, getStates, getStatesById } from "../../../../services"
+import { createCities, createNeighborhoods, createOccurrences, getByState, getCities, getState, getStates, getStatesById } from "../../../../services"
 
 
 const ModalCriar : React.FC<IProps> = ({
     isModal, onHide
 }) =>{
-    const { occurrences, token, states, regions, cities, sources, reasons, clippings, transports } = useSelector((state: RootState) => state.clickState)
+    const {neighborhoods, occurrences, token, states, regions, cities, sources, reasons, clippings, transports } = useSelector((state: RootState) => state.clickState)
 
     const [cidades, setCidades] = useState<any>([])
     const [idCidade, setIdCidade] = useState('')
     const [idEstado, setIdEstado] = useState('')
+    const [idBairro, setIdBairro] = useState('')
     
     let [ latitudeCoord, setLatitudeCoord ] = useState(0)
     let [ longitudeCoord, setLongitudeCoord ] = useState(0)
@@ -94,6 +95,9 @@ const ModalCriar : React.FC<IProps> = ({
             })
     }
 
+    const [isSucessoMsg, setSucessoMsg] = useState(false)
+    const [isErroMsg, setErroMsg ] = useState(false)
+
     return (
         <Modal
             show={isModal}
@@ -151,7 +155,91 @@ const ModalCriar : React.FC<IProps> = ({
                           }
                     }
                     onSubmit={(dados: any)=>{
-                        alert('cheguei')
+                        
+                       
+
+
+                        createNeighborhoods(token, {name: dados.neighborhood})
+                            .then((resp)=>{
+                                setIdBairro(resp.id)
+                                console.log(resp.id)
+
+                                let clippingsList: any[] = []
+                                let transportList: any[] = []
+                                let complementaryReasonsList: any[] = []
+        
+                                dados.clippings.forEach((chave: any)=>{
+                                    clippingsList.push({
+                                        id: chave
+                                    })
+                                })
+        
+                                dados.transports.forEach((chave: any) => {
+                                    transportList.push({
+                                        id: chave
+                                    })
+                                })
+        
+                                dados.complementary_reasons.forEach((chave: any) =>{
+                                    complementaryReasonsList.push({
+                                        id: chave
+                                    })
+                                })
+        
+                                let agent_presence = Boolean(dados.agent_presence)
+                                let police_action = Boolean(dados.police_action)
+                                let interrupted_transport = Boolean(dados.interrupted_transport)
+                                let massacre =Boolean(dados.massacre)
+
+                                let aux = {
+                                    clippings: clippingsList,
+                                    transports: transportList,
+                                    state: idEstado,
+                                    city: idCidade,
+                                    source: dados.source_s,
+                                    address: dados.address,
+                                    description: dados.description,
+                                    latitude: dados.latitude,
+                                    longitude: dados.longitude,
+                                    region: dados.region,
+                                    status: dados.status,
+                                    related_news: dados.related_news,
+                                    related_record: dados.related_record,
+                                    release_date: dados.release_date,
+                                    transport_description: dados.transport_description,
+                                    observations: dados.observations,
+                                    agent_presence: agent_presence,
+                                    police_action: police_action,
+                                    interrupted_transport: interrupted_transport,
+                                    complementary_reasons: complementaryReasonsList,
+                                    country: dados.country,
+                                    neighborhood: idBairro,
+                                    date: dados.date,
+                                    number_civilians_dead: 0,
+                                    number_civilians_wounded: 0,
+                                    number_agent_dead: 0,
+                                    number_agent_wounded: 0,
+                                    main_reason: dados.main_reason,
+                                    masscre: massacre,
+                                    police_unit: dados.police_unit,
+                                    date_interruption: dados.date_interruption
+                                }
+        
+                                console.log(aux)
+                                
+                                createOccurrences(token, aux)
+                                    .then((resp)=>{
+                                        console.log('executou')
+                                        setSucessoMsg(true)
+                                    })
+                                    .catch((resp)=>{
+                                        console.log('errou')
+                                        setErroMsg(true)
+                                    })
+                            })
+
+                        
+
                     }}
                     validationSchema={schemaOccurrence}
                 >
@@ -168,14 +256,9 @@ const ModalCriar : React.FC<IProps> = ({
                         <form onSubmit={handleSubmit}>  
 
                             <div>
-                                <button
-                                    onClick={()=>{
-                                        console.log(values)
-                                        console.log(errors)
-                                    }}
-                                    >
-                                    Cadastrar
-                                </button>
+                                <input
+                                    type="submit"
+                                    value="Cadastrar ocorrencia" />
                                 
                             </div>
 
@@ -210,16 +293,17 @@ const ModalCriar : React.FC<IProps> = ({
                                 <select
                                     name="state_s"
                                     onChange={(e: any)=>{
-                                        console.log(e.target.value)
-                                        setFieldValue('state_s', e.target.value)
-                                        getCidades(e.target.value)
+                                        console.log( e.currentTarget.selectedOptions[0].label)
+                                        setFieldValue('state_s', e.currentTarget.selectedOptions[0].label)
+                                        getCidades( e.currentTarget.selectedOptions[0].label)
+                                        setFieldValue('region', e.target.value)
                                     }}
                                     onBlur={handleBlur('state_s')}
                                     value={values.state_s}
                                 >
                                     {regions.map((chave, valor) => {
                                         if(chave.enabled == true){
-                                            return <option value={chave.state}>{chave.state}</option>
+                                            return <option value={chave.id}>{chave.state}</option>
                                         }
                                     })}
                                 </select>
@@ -607,6 +691,32 @@ const ModalCriar : React.FC<IProps> = ({
                     )}
                 </Formik> 
             </Modal.Body>
+
+
+            <Modal
+                show={isSucessoMsg}
+                onHide={()=>setSucessoMsg(false)}
+                dialogClassName="modal-90w"
+                aria-labelledby="example-custom-modal-styling-title"
+                fullscreen
+            >
+                <Modal.Header closeButton></Modal.Header>
+                <Modal.Body>
+                    Sucesso ao salvar!
+                </Modal.Body>
+            </Modal>
+            <Modal
+                show={isErroMsg}
+                onHide={()=>setErroMsg(false)}
+                dialogClassName="modal-90w"
+                aria-labelledby="example-custom-modal-styling-title"
+                fullscreen
+            >
+                <Modal.Header closeButton></Modal.Header>
+                <Modal.Body>
+                    Erro ao salvar!
+                </Modal.Body>
+            </Modal>
         </Modal>
     )
 }
