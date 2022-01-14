@@ -1,22 +1,24 @@
 import { IProps } from "./indes.types"
 import { Formik } from 'formik'
-import { Modal } from "react-bootstrap"
+import { Button, Form, Modal } from "react-bootstrap"
 import * as Yup from 'yup'
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
-import { RootState } from "../../../../store"
-import { createCities, createNeighborhoods, createOccurrences, getByState, getCities, getState, getStates, getStatesById } from "../../../../services"
-
+import { useDispatch, useSelector } from "react-redux"
+import { ADD_NEIGHBORHOODS, RootState } from "../../../../store"
+import { createCities, createNeighborhoods, createOccurrences, getByState, getCities, getNeighborhoods, getState, getStates, getStatesById } from "../../../../services"
+import './styles.css'
 
 const ModalCriar : React.FC<IProps> = ({
     isModal, onHide
 }) =>{
     const {neighborhoods, occurrences, token, states, regions, cities, sources, reasons, clippings, transports } = useSelector((state: RootState) => state.clickState)
+    const dispatch = useDispatch()
 
     const [cidades, setCidades] = useState<any>([])
     const [idCidade, setIdCidade] = useState('')
     const [idEstado, setIdEstado] = useState('')
     const [idBairro, setIdBairro] = useState('')
+    const [idRegiao, setIdRegiao] = useState('')
     
     let [ latitudeCoord, setLatitudeCoord ] = useState(0)
     let [ longitudeCoord, setLongitudeCoord ] = useState(0)
@@ -51,6 +53,38 @@ const ModalCriar : React.FC<IProps> = ({
         interrupted_transport: Yup.string().required('Campo  é obrigatório'),
     })
     
+
+    function getNeighborhood(neighborhood: string){
+        let aux = false
+        neighborhoods.forEach((chave: any)=>{
+            if(chave.name == neighborhood){
+                aux = true
+                setIdBairro(chave.id)
+                console.log('ja tinha')
+            }
+        })
+        if(aux == false){
+            createNeighborhoods(token, {name: neighborhood})
+                .then((resp)=>{
+                    setIdBairro(resp.id)
+                    console.log('cadastrado')
+                    getNeighborhoods(token)
+                        .then((resp)=>{
+                            dispatch({type: ADD_NEIGHBORHOODS, neighborhoods: resp})
+                        })
+                })
+        }
+    }
+
+    function getRegion(state: string){
+
+        regions.forEach((chave: any)=>{
+            if(chave.state == state){
+                console.log(chave, 'região')
+                setIdRegiao(chave.id)
+            }
+        })
+    }
 
     function getCidades(state: string){
         getStates(token)
@@ -121,8 +155,8 @@ const ModalCriar : React.FC<IProps> = ({
                             latitude: latitudeCoord,
                             longitude: longitudeCoord,
                             date: "",
-                            agent_presence: 'true',
-                            police_action: 'true',
+                            agent_presence: 'false',
+                            police_action: 'false',
                             number_civilians_dead: 0,
                             number_civilians_wounded: 0,
                             number_agent_dead: 0,
@@ -137,9 +171,9 @@ const ModalCriar : React.FC<IProps> = ({
                             complementary_reasons: [
                               ""
                             ],
-                            massacre: 'true',
+                            massacre: 'false',
                             police_unit: "",
-                            interrupted_transport: 'true',
+                            interrupted_transport: 'false',
                             related_news: "",
                             clippings: [
                                 ""
@@ -155,87 +189,78 @@ const ModalCriar : React.FC<IProps> = ({
                           }
                     }
                     onSubmit={(dados: any)=>{
+                                        
+                        let clippingsList: any[] = []
+                        let transportList: any[] = []
+                        let complementaryReasonsList: any[] = []
+
+                        dados.clippings.forEach((chave: any)=>{
+                            clippingsList.push({
+                                id: chave
+                            })
+                        })
+
+                        dados.transports.forEach((chave: any) => {
+                            transportList.push({
+                                id: chave
+                            })
+                        })
+
+                        dados.complementary_reasons.forEach((chave: any) =>{
+                            complementaryReasonsList.push({
+                                id: chave
+                            })
+                        })
+
+                        let agent_presence = Boolean(dados.agent_presence)
+                        let police_action = Boolean(dados.police_action)
+                        let interrupted_transport = Boolean(dados.interrupted_transport)
+                        let massacre =Boolean(dados.massacre)
+
+                        let aux = {
+                            clippings: clippingsList,
+                            transports: transportList,
+                            state: idEstado,
+                            city: idCidade,
+                            source: dados.source_s,
+                            address: dados.address,
+                            description: dados.description,
+                            latitude: dados.latitude,
+                            longitude: dados.longitude,
+                            region: idRegiao,
+                            status: dados.status,
+                            related_news: dados.related_news,
+                            related_record: dados.related_record,
+                            release_date: dados.release_date,
+                            transport_description: dados.transport_description,
+                            observations: dados.observations,
+                            agent_presence: agent_presence,
+                            police_action: police_action,
+                            interrupted_transport: interrupted_transport,
+                            complementary_reasons: complementaryReasonsList,
+                            country: dados.country,
+                            neighborhood: idBairro,
+                            date: dados.date,
+                            number_civilians_dead: 0,
+                            number_civilians_wounded: 0,
+                            number_agent_dead: 0,
+                            number_agent_wounded: 0,
+                            main_reason: dados.main_reason,
+                            masscre: massacre,
+                            police_unit: dados.police_unit,
+                            date_interruption: dados.date_interruption
+                        }
+
+                        console.log(aux)
                         
-                       
-
-
-                        createNeighborhoods(token, {name: dados.neighborhood})
+                        createOccurrences(token, aux)
                             .then((resp)=>{
-                                setIdBairro(resp.id)
-                                console.log(resp.id)
-
-                                let clippingsList: any[] = []
-                                let transportList: any[] = []
-                                let complementaryReasonsList: any[] = []
-        
-                                dados.clippings.forEach((chave: any)=>{
-                                    clippingsList.push({
-                                        id: chave
-                                    })
-                                })
-        
-                                dados.transports.forEach((chave: any) => {
-                                    transportList.push({
-                                        id: chave
-                                    })
-                                })
-        
-                                dados.complementary_reasons.forEach((chave: any) =>{
-                                    complementaryReasonsList.push({
-                                        id: chave
-                                    })
-                                })
-        
-                                let agent_presence = Boolean(dados.agent_presence)
-                                let police_action = Boolean(dados.police_action)
-                                let interrupted_transport = Boolean(dados.interrupted_transport)
-                                let massacre =Boolean(dados.massacre)
-
-                                let aux = {
-                                    clippings: clippingsList,
-                                    transports: transportList,
-                                    state: idEstado,
-                                    city: idCidade,
-                                    source: dados.source_s,
-                                    address: dados.address,
-                                    description: dados.description,
-                                    latitude: dados.latitude,
-                                    longitude: dados.longitude,
-                                    region: dados.region,
-                                    status: dados.status,
-                                    related_news: dados.related_news,
-                                    related_record: dados.related_record,
-                                    release_date: dados.release_date,
-                                    transport_description: dados.transport_description,
-                                    observations: dados.observations,
-                                    agent_presence: agent_presence,
-                                    police_action: police_action,
-                                    interrupted_transport: interrupted_transport,
-                                    complementary_reasons: complementaryReasonsList,
-                                    country: dados.country,
-                                    neighborhood: idBairro,
-                                    date: dados.date,
-                                    number_civilians_dead: 0,
-                                    number_civilians_wounded: 0,
-                                    number_agent_dead: 0,
-                                    number_agent_wounded: 0,
-                                    main_reason: dados.main_reason,
-                                    masscre: massacre,
-                                    police_unit: dados.police_unit,
-                                    date_interruption: dados.date_interruption
-                                }
-        
-                                console.log(aux)
-                                
-                                createOccurrences(token, aux)
-                                    .then((resp)=>{
-                                        console.log('executou')
-                                        setSucessoMsg(true)
-                                    })
-                                    .catch((resp)=>{
-                                        console.log('errou')
-                                        setErroMsg(true)
-                                    })
+                                console.log('executou')
+                                setSucessoMsg(true)
+                            })
+                            .catch((resp)=>{
+                                console.log('errou')
+                                setErroMsg(true)
                             })
 
                         
@@ -256,15 +281,14 @@ const ModalCriar : React.FC<IProps> = ({
                         <form onSubmit={handleSubmit}>  
 
                             <div>
-                                <input
-                                    type="submit"
-                                    value="Cadastrar ocorrencia" />
-                                
+                                <Button variant="warning" type="submit" >
+                                    Cadastrar ocorrencia
+                                </Button>
                             </div>
 
                             <div>
                                 <label htmlFor="address">Local*</label>
-                                <input 
+                                <Form.Control 
                                     type="text"
                                     name="address"
                                     onChange={handleChange('address')}
@@ -272,12 +296,12 @@ const ModalCriar : React.FC<IProps> = ({
                                     value={values.address}
                                 />  
                                 {(errors.address && touched.address) &&
-                                <p>{errors.address}</p>}
+                                <p className="text-error">{errors.address}</p>}
                             </div>
 
                             <div>
                                 <label htmlFor="country">País*</label>
-                                <input 
+                                <Form.Control 
                                     name="country"
                                     type="text"
                                     onChange={handleChange('country')}
@@ -285,36 +309,36 @@ const ModalCriar : React.FC<IProps> = ({
                                     value={values.country}
                                 />  
                                 {(errors.country && touched.country) &&
-                                <p>{errors.country}</p>}
+                                <p className="text-error">{errors.country}</p>}
                             </div>
                                 
                             <div>
                                 <label htmlFor="state_s">Estado*</label>
-                                <select
+                                <Form.Select
                                     name="state_s"
                                     onChange={(e: any)=>{
-                                        console.log( e.currentTarget.selectedOptions[0].label)
-                                        setFieldValue('state_s', e.currentTarget.selectedOptions[0].label)
-                                        getCidades( e.currentTarget.selectedOptions[0].label)
-                                        setFieldValue('region', e.target.value)
+                                        console.log( e.target.value)
+                                        setFieldValue('state_s', e.target.value)
+                                        getCidades( e.target.value)
+                                        getRegion(e.target.value)
                                     }}
                                     onBlur={handleBlur('state_s')}
                                     value={values.state_s}
                                 >
                                     {regions.map((chave, valor) => {
                                         if(chave.enabled == true){
-                                            return <option value={chave.id}>{chave.state}</option>
+                                            return <option value={chave.state}>{chave.state}</option>
                                         }
                                     })}
-                                </select>
+                                </Form.Select>
                                 {(errors.state_s && touched.state_s) &&
-                                <p>{errors.state_s}</p>}
+                                <p className="text-error">{errors.state_s}</p>}
                             </div>
                            
-                            
+
                             <div>
                                 <label htmlFor="city_s">Cidade*</label>
-                                <select
+                                <Form.Select
                                     name="city_s"
                                     onChange={(e: any)=>{
                                         console.log(e.target.value)
@@ -327,28 +351,39 @@ const ModalCriar : React.FC<IProps> = ({
                                     {cidades.map((chave: any, valor: any) => {
                                         return <option value={chave.nome}>{chave.nome}</option>
                                     })}
-                                </select>
+                                </Form.Select>
                                 {(errors.city_s && touched.city_s) &&
-                                <p>{errors.city_s}</p>}
+                                <p className="text-error">{errors.city_s}</p>}
                             </div>
+
 
                             
                             <div>
                                 <label htmlFor="neighborhood">Bairro*</label>
-                                <input 
+                                <Form.Control 
                                     name="neighborhood"
                                     type="text"
                                     onChange={handleChange('neighborhood')}
-                                    onBlur={handleBlur('neighborhood')}
+                                    onBlur={(e: any)=>{
+                                        setFieldValue('neighborhood', e.target.value)
+                                        getNeighborhood(e.target.value)
+                                    }}
                                     value={values.neighborhood}
+                                    list="lista_bairros"
                                 />  
+                                <datalist id="lista_bairros">
+                                    {neighborhoods.map((chave) =>{
+                                        return <option value={chave.name}>{chave.name}</option>
+                                    })}
+                                </datalist>
+
                                 {(errors.neighborhood && touched.neighborhood) &&
-                                <p>{errors.neighborhood}</p>}
+                                <p className="text-error">{errors.neighborhood}</p>}
                             </div>
                             
                             <div>
                                 <label htmlFor="date">Data da ocorrência*</label>
-                                <input
+                                <Form.Control
                                     type="datetime-local"
                                     name="date"
                                     onChange={handleChange('date')}
@@ -356,12 +391,12 @@ const ModalCriar : React.FC<IProps> = ({
                                     value={values.date}
                                 />
                                 {(errors.date && touched.date) &&
-                                <p>{errors.date}</p>}
+                                <p className="text-error">{errors.date}</p>}
                             </div>
 
                             <div>
                                 <label htmlFor="source_s">Fonte de registro*</label>
-                                <select
+                                <Form.Select
                                     name="source_s"
                                     onChange={(e: any)=>{
                                         console.log(e.target.value, e.currentTarget.selectedOptions[0].label)
@@ -374,103 +409,105 @@ const ModalCriar : React.FC<IProps> = ({
                                     {sources.map((chave: any, valor: any) => {
                                         return <option value={chave.id}>{chave.name}</option>
                                     })}
-                                </select>
+                                </Form.Select>
                                 {(errors.source_s && touched.source_s) &&
-                                <p>{errors.source_s}</p>}
+                                <p className="text-error">{errors.source_s}</p>}
                             </div>
 
 
                             <div>
                                 <label htmlFor="description">Descrição da ocorrência</label>
-                                <textarea
+                                <Form.Control
+                                    as="textarea"
                                     name="description"
                                     onChange={handleChange('description')}
                                     onBlur={handleBlur('description')}
                                     value={values.description}
-                                ></textarea>
+                                />
                                 {(errors.description && touched.description) &&
-                                <p>{errors.description}</p>}
+                                <p className="text-error">{errors.description}</p>}
                             </div>
 
                             <div>
                                 <label htmlFor="related_record">Registro relacionado</label>
-                                <textarea
+                                <Form.Control
                                     name="related_record"
                                     onChange={handleChange('related_record')}
                                     onBlur={handleBlur('related_record')}
                                     value={values.related_record}
-                                ></textarea>
+                                    as="textarea"
+                                />
                                 {(errors.related_record && touched.related_record) &&
-                                <p>{errors.related_record}</p>}
+                                <p className="text-error">{errors.related_record}</p>}
                             </div>
                             
                             <div>
                                 <label htmlFor="police_action">Houve ação policial*</label>
                                 <label>
-                                    <input
+                                    <Form.Check
                                         type="radio"
                                         name="police_action"
                                         value="true"
                                         onChange={()=> {
                                             setFieldValue('police_action', 'true')
-                                            setFieldValue('agent_presence', 'true')
                                         }}
                                         checked={values.police_action == 'true'}
+                                        label="Sim"
                                     />
-                                    Sim
+                                    
                                 </label>
                                 <label>
-                                    <input
+                                    <Form.Check
                                         type="radio"
                                         name="police_action"
                                         value="false"
                                         onChange={()=> {
                                             setFieldValue('police_action', 'false')
-                                            setFieldValue('agent_presence', 'false')
                                         }}
                                         checked={values.police_action == 'false'}
+                                        label="Não"
                                     />
-                                    Não
+                                    
                                 </label>
                                 {(errors.police_action && touched.police_action) &&
-                                <p>{errors.police_action}</p>}
+                                <p className="text-error">{errors.police_action}</p>}
                             </div>
 
                             <div>                            
                                 <label htmlFor="agent_presence">Presença de agentes*</label>
                                 <label>
-                                    <input
+                                    <Form.Check
                                         type="radio"
                                         name="agent_presence"
                                         value="true"
                                         onChange={()=> {
-                                            setFieldValue('police_action', 'true')
                                             setFieldValue('agent_presence', 'true')
                                         }}
                                         checked={values.agent_presence == 'true'}
+                                        label="Sim"
                                     />
-                                    Sim
+                                    
                                 </label>
                                 <label>
-                                    <input
+                                    <Form.Check
                                         type="radio"
                                         name="agent_presence"
                                         value="false"
                                         onChange={()=> {
-                                            setFieldValue('police_action', 'false')
                                             setFieldValue('agent_presence', 'false')
                                         }}
                                         checked={values.agent_presence == 'false'}
+                                        label="Não"
                                     />
-                                    Não
+                                    
                                 </label>
                                 {(errors.agent_presence && touched.agent_presence) &&
-                                <p>{errors.agent_presence}</p>}
+                                <p className="text-error">{errors.agent_presence}</p>}
                             </div>
 
                             <div>
                                 <label htmlFor="main_reason_s">Motivo principal*</label>
-                                <select
+                                <Form.Select
                                     name="main_reason_s"
                                     onChange={(e: any)=>{
                                         console.log(e.target.value, e.currentTarget.selectedOptions[0].label)
@@ -483,14 +520,14 @@ const ModalCriar : React.FC<IProps> = ({
                                     {reasons.map((chave: any, valor: any) => {
                                         return <option value={chave.id}>{chave.name}</option>
                                     })}
-                                </select>
+                                </Form.Select>
                                 {(errors.main_reason_s && touched.main_reason_s) &&
-                                <p>{errors.main_reason_s}</p>}
+                                <p className="text-error">{errors.main_reason_s}</p>}
                             </div>
 
                             <div >
                                 <label htmlFor="complementary_reasons">Motivos complementares</label>
-                                <select
+                                <Form.Select
                                     name="complementary_reasons"
                                     onChange={handleChange('complementary_reasons')}
                                     value={values.complementary_reasons}
@@ -500,15 +537,15 @@ const ModalCriar : React.FC<IProps> = ({
                                     {reasons.map(chave => {
                                         return <option value={chave.id}>{chave.name}</option>
                                     })}
-                                </select>
+                                </Form.Select>
                                 {(errors.complementary_reasons && touched.complementary_reasons) &&
-                                <p>{errors.complementary_reasons}</p>}
+                                <p className="text-error">{errors.complementary_reasons}</p>}
                             </div>
 
                             <div>                            
                                 <label htmlFor="massacre">Chacina*</label>
                                 <label>
-                                    <input
+                                    <Form.Check
                                         type="radio"
                                         name="massacre"
                                         value="true"
@@ -516,11 +553,11 @@ const ModalCriar : React.FC<IProps> = ({
                                             setFieldValue('massacre', 'true')
                                         }}
                                         checked={values.massacre == 'true'}
+                                        label="Sim"
                                     />
-                                    Sim
                                 </label>
                                 <label>
-                                    <input
+                                    <Form.Check
                                         type="radio"
                                         name="massacre"
                                         value="false"
@@ -528,16 +565,16 @@ const ModalCriar : React.FC<IProps> = ({
                                             setFieldValue('massacre', 'false')
                                         }}
                                         checked={values.massacre == 'false'}
+                                        label="Não"
                                     />
-                                    Não
                                 </label>
                                 {(errors.massacre && touched.massacre) &&
-                                <p>{errors.massacre}</p>}
+                                <p className="text-error">{errors.massacre}</p>}
                             </div>
 
                             <div>
                                 <label htmlFor="police_unit">Unidades policiais presentes</label>
-                                <input 
+                                <Form.Control 
                                     name="police_unit"
                                     type="text"
                                     onChange={handleChange('police_unit')}
@@ -545,26 +582,27 @@ const ModalCriar : React.FC<IProps> = ({
                                     value={values.police_unit}
                                 />  
                                 {(errors.police_unit && touched.police_unit) &&
-                                <p>{errors.police_unit}</p>}
+                                <p className="text-error">{errors.police_unit}</p>}
                             </div>
 
 
                             <div>
                                 <label htmlFor="related_news">Links de notícias relacionadas</label>
-                                <textarea
+                                <Form.Control
                                     name="related_news"
                                     onChange={handleChange('related_news')}
                                     onBlur={handleBlur('related_news')}
                                     value={values.related_news}
-                                ></textarea>
+                                    as="textarea"
+                                />
                                 {(errors.related_news && touched.related_news) &&
-                                <p>{errors.related_news}</p>}
+                                <p className="text-error">{errors.related_news}</p>}
                             </div>
 
 
                             <div>
                                 <label htmlFor="clippings">outros recortes*</label>
-                                <select
+                                <Form.Select
                                     name="clippings"
                                     onChange={handleChange('clippings')}
                                     onBlur={handleBlur('clippings')}
@@ -574,27 +612,28 @@ const ModalCriar : React.FC<IProps> = ({
                                     {clippings.map(chave => {
                                         return <option value={chave.id}>{chave.name}</option>
                                     })}
-                                </select>
+                                </Form.Select>
                                 {(errors.clippings && touched.clippings) &&
-                                <p>{errors.clippings}</p>}
+                                <p className="text-error">{errors.clippings}</p>}
                             </div>
                             
                             <div>
                                 <label htmlFor="observations">Observação</label>
-                                <textarea
+                                <Form.Control
+                                    as="textarea"
                                     name="observations"
                                     onChange={handleChange('observations')}
                                     onBlur={handleBlur('observations')}
                                     value={values.observations}
-                                ></textarea>
+                                />
                                 {(errors.observations && touched.observations) &&
-                                <p>{errors.observations}</p>}
+                                <p className="text-error">{errors.observations}</p>}
                             </div>
 
                             <div>                            
                                 <label htmlFor="interrupted_transport">O transporte foi interrompido?*</label>
                                 <label>
-                                    <input
+                                    <Form.Check
                                         type="radio"
                                         name="interrupted_transport"
                                         value="true"
@@ -602,11 +641,11 @@ const ModalCriar : React.FC<IProps> = ({
                                             setFieldValue('interrupted_transport', 'true')
                                         }}
                                         checked={values.interrupted_transport == 'true'}
+                                        label="Sim"
                                     />
-                                    Sim
                                 </label>
                                 <label>
-                                    <input
+                                    <Form.Check
                                         type="radio"
                                         name="interrupted_transport"
                                         value="false"
@@ -620,17 +659,17 @@ const ModalCriar : React.FC<IProps> = ({
                                             
                                         }}
                                         checked={values.interrupted_transport == 'false'}
+                                        label="Não"
                                     />
-                                    Não
                                 </label>
                                 {(errors.interrupted_transport && touched.interrupted_transport) &&
-                                <p>{errors.interrupted_transport}</p>}
+                                <p className="text-error">{errors.interrupted_transport}</p>}
                             </div>
 
                             
                             <div >
                                 <label htmlFor="transports">tipo de transporte</label>
-                                <select
+                                <Form.Select
                                     name="transports"
                                     onChange={handleChange('transports')}
                                     value={values.transports}
@@ -640,15 +679,15 @@ const ModalCriar : React.FC<IProps> = ({
                                     {transports.map(chave => {
                                         return <option value={chave.id}>{chave.name}</option>
                                     })}
-                                </select>
+                                </Form.Select>
                                 {(errors.transports && touched.transports) &&
-                                <p>{errors.transports}</p>}
+                                <p className="text-error">{errors.transports}</p>}
                             </div>
 
 
                             <div>
                                 <label htmlFor="date_interruption">Data da interrupção</label>
-                                <input
+                                <Form.Control
                                     type="datetime-local"
                                     name="date_interruption"
                                     onChange={handleChange('date_interruption')}
@@ -657,12 +696,12 @@ const ModalCriar : React.FC<IProps> = ({
                                     disabled={values.interrupted_transport == 'false'}
                                 />
                                 {(errors.date_interruption && touched.date_interruption) &&
-                                <p>{errors.date_interruption}</p>}
+                                <p className="text-error">{errors.date_interruption}</p>}
                             </div>
 
                             <div>
                                 <label htmlFor="release_date">Data da interrupção</label>
-                                <input
+                                <Form.Control
                                     type="datetime-local"
                                     name="release_date"
                                     onChange={handleChange('release_date')}
@@ -671,20 +710,21 @@ const ModalCriar : React.FC<IProps> = ({
                                     disabled={values.interrupted_transport == 'false'}
                                 />
                                 {(errors.release_date && touched.release_date) &&
-                                <p>{errors.release_date}</p>}
+                                <p className="text-error">{errors.release_date}</p>}
                             </div>
 
                             <div>
                                 <label htmlFor="transport_description">Descrição do transporte</label>
-                                <textarea
+                                <Form.Control
+                                    as="textarea"
                                     name="transport_description"
                                     onChange={handleChange('transport_description')}
                                     onBlur={handleBlur('transport_description')}
                                     value={values.transport_description}
                                     disabled={values.interrupted_transport == 'false'}
-                                ></textarea>
+                                />
                                 {(errors.transport_description && touched.transport_description) &&
-                                <p>{errors.transport_description}</p>}
+                                <p className="text-error">{errors.transport_description}</p>}
                             </div>
 
                         </form>
@@ -698,7 +738,6 @@ const ModalCriar : React.FC<IProps> = ({
                 onHide={()=>setSucessoMsg(false)}
                 dialogClassName="modal-90w"
                 aria-labelledby="example-custom-modal-styling-title"
-                fullscreen
             >
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>
@@ -710,7 +749,6 @@ const ModalCriar : React.FC<IProps> = ({
                 onHide={()=>setErroMsg(false)}
                 dialogClassName="modal-90w"
                 aria-labelledby="example-custom-modal-styling-title"
-                fullscreen
             >
                 <Modal.Header closeButton></Modal.Header>
                 <Modal.Body>

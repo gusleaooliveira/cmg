@@ -63,7 +63,7 @@ const Occurrences: React.FC = ({}) => {
         getReasons(token).then((resp)=> dispatch({type: ADD_REASONS, reasons: resp}))
         getClippings(token).then((resp)=> dispatch({type: ADD_CLIPPINGS, clippings: resp}))
         getTransports(token).then((resp)=> dispatch({type: ADD_TRANSPORTS, transports: resp}))
-        getNeighborhoods(token).then((resp)=> dispatch({type: ADD_NEIGHBORHOODS, neighboroods: resp}))
+        getNeighborhoods(token).then((resp)=> dispatch({type: ADD_NEIGHBORHOODS, neighborhoods: resp}))
 
         getState()
             .then((resp)=>{
