@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../../store"
 import { createCities, getByState, getCities, getState, getStates, getStatesById } from "../../../../services"
-import './style.css'
+
 
 const ModalCriar : React.FC<IProps> = ({
     isModal, onHide
@@ -41,12 +41,12 @@ const ModalCriar : React.FC<IProps> = ({
         country: Yup.string().required('Campo  é obrigatório'),
         neighborhood: Yup.string().required('Campo  é obrigatório'),
         date: Yup.string().required('Campo  é obrigatório'),
-        source: Yup.string().required('Campo  é obrigatório'),
+        source_s: Yup.string().required('Campo  é obrigatório'),
         police_action: Yup.string().required('Campo  é obrigatório'),
         agent_presence: Yup.string().required('Campo  é obrigatório'),
         main_reason: Yup.string().required('Campo  é obrigatório'),
         massacre: Yup.string().required('Campo  é obrigatório'),
-        clippings: Yup.string().required('Campo  é obrigatório'),
+        clippings: Yup.array().required('Campo  é obrigatório'),
         interrupted_transport: Yup.string().required('Campo  é obrigatório'),
     })
     
@@ -151,7 +151,7 @@ const ModalCriar : React.FC<IProps> = ({
                           }
                     }
                     onSubmit={(dados: any)=>{
-                        console.log(dados)
+                        alert('cheguei')
                     }}
                     validationSchema={schemaOccurrence}
                 >
@@ -165,10 +165,18 @@ const ModalCriar : React.FC<IProps> = ({
                        isValid, 
                        setFieldValue
                     })=>(
-                        <>  
+                        <form onSubmit={handleSubmit}>  
 
                             <div>
-                                <input type="submit" value="Cadastrar" />
+                                <button
+                                    onClick={()=>{
+                                        console.log(values)
+                                        console.log(errors)
+                                    }}
+                                    >
+                                    Cadastrar
+                                </button>
+                                
                             </div>
 
                             <div>
@@ -475,6 +483,7 @@ const ModalCriar : React.FC<IProps> = ({
                                 <select
                                     name="clippings"
                                     onChange={handleChange('clippings')}
+                                    onBlur={handleBlur('clippings')}
                                     value={values.clippings}
                                     multiple
                                     >
@@ -594,7 +603,7 @@ const ModalCriar : React.FC<IProps> = ({
                                 <p>{errors.transport_description}</p>}
                             </div>
 
-                        </>
+                        </form>
                     )}
                 </Formik> 
             </Modal.Body>
