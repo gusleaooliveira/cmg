@@ -12,7 +12,7 @@ export default {
         rose: '#E1B7AD',
         lightYellow: '#EEEADE',
         blue: '#0AA1D0',
-        red: '#BF091F',
+        red: '#EA5455',
         brown: '#DA8300',
 
 

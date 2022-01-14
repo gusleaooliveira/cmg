@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Image, InputGroup, Nav, Navbar, Row } from 'react-bootstrap'
-import { NavbarHeader, NavbarLeft } from '../../components'
+import { CardOccurrence, NavbarHeader, NavbarLeft } from '../../components'
 import { ModalCriar } from './Modals/index'
 import agentImg from './agent.svg'
 import civillianImg from './civillian.svg'
@@ -179,100 +179,35 @@ const Occurrences: React.FC = ({}) => {
                         </Row>
 
                         {isTela == false ?
-                            occurrences.map((chave, valor)=>{
-                                return  <Row>
-                                            <Col>
-                                                <Row>
-                                                    <Col>
-                                                        <div>
-                                                            Registrado por
-                                                                <b> {chave.user?.name} </b>
-                                                        </div>
-                                                        <div>
-                                                            
-                                                            <img src={alertImg} />  
-                                                            <div>{convertData(chave.date)}</div>
-
-                                                        </div> 
-                                                        <div>
-
-                                                            <div>
-                                                                {`${chave.address}, ${chave.city?.name}`}                                                                
-                                                            </div>
-                                                            <div>
-                                                                {`${chave.state?.name}`}
-                                                            </div>
-                                                                                                                        
-                                                        </div>
-                                                    </Col>
-                                                            <Col>
-                                                                <div>{`# ${chave.id}`}</div>
-                                                                <div>Civis</div>
-                                                                <div>
-                                                                    <Image src={civillianImg} />
-
-                                                                    <div>
-                                                                        <span>
-                                                                            {chave.number_civilians_wounded} feridos 
-                                                                        </span>
-                                                                        {'/'}
-                                                                        <span>
-                                                                            {chave.number_civilians_dead} mortos
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div>Agentes de segurança</div>
-                                                                <div>
-                                                                    <Image src={agentImg} />
-
-                                                                    <div>
-                                                                        <span>
-                                                                            {chave.number_agent_wounded} feridos 
-                                                                        </span>
-                                                                        {'/'}
-                                                                        <span>
-                                                                            {chave.number_agent_dead} mortos
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </Col>
-                                                            <Col>
-                                                                <div>{`Cadastrado em ${convertData(chave.date)}`}</div>
-                                                            
-                                                                <div>
-                                                                    Descrição da ocorrência
-                                                                </div>
-                                                                <div>
-                                                                    {chave.description}
-                                                                </div>
-                                                                <div>
-                                                                    <Button variant="danger" onClick={()=>{
-                                                                        deleteOccurrences(token, chave.id)
-                                                                            .then((resp)=>{
-                                                                                console.log('apagado!!!!')
-                                                                                getOccurrences(token)
-                                                                                    .then((resp)=>{
-                                                                                        dispatch({
-                                                                                            type: ADD_OCCURRENCES,
-                                                                                            occurrences: resp
-                                                                                        })
-                                                                                    })
-                                                                            })
-                                                                    }}>
-                                                                        Reprovar
-                                                                    </Button>
-                                                                    <Button variant="warning">
-                                                                        Aprovar
-                                                                    </Button>
-                                                                </div>
-                                                            </Col>    
-                                                </Row>
-                                            </Col>
-                                            <Col>
-                                            
-                                            </Col>
-                                        </Row>
-                                })
+                            occurrences.map( (id, value) => {
+                                console.log(id, 'id')
+                                return (
+                                    <CardOccurrence 
+                                        id={value}
+                                        user={id.user.name}
+                                        date={convertData(id.date)}
+                                        address={id.address}
+                                        civiliansWounded={id.number_civilians_wounded}
+                                        civiliansDead={id.number_civilians_dead}
+                                        agentDead={id.number_agent_dead}
+                                        agentWounded={id.number_agent_wounded}
+                                        description={id.description}
+                                        reprove={() => {
+                                            deleteOccurrences(token, id.id)
+                                            .then((resp)=>{
+                                                console.log('apagado!!!!')
+                                                getOccurrences(token)
+                                                    .then((resp)=>{
+                                                        dispatch({
+                                                            type: ADD_OCCURRENCES,
+                                                            occurrences: resp
+                                                        })
+                                                    })
+                                            })}
+                                        }
+                                    />
+                                )
+                            })
                             :
                                 occurrences.map((chave, valor)=>{
                                     if(chave.id == idOcorrenciaUnica){
