@@ -532,7 +532,6 @@ const ModalCriar : React.FC<IProps> = ({
                                     onChange={handleChange('complementary_reasons')}
                                     value={values.complementary_reasons}
                                     multiple
-                                    disabled={values.interrupted_transport == 'false'}
                                     >
                                     {reasons.map(chave => {
                                         return <option value={chave.id}>{chave.name}</option>
