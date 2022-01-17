@@ -1002,6 +1002,150 @@ const ModalCriar : React.FC<IProps> = ({
                                             <p className="text-error">{errors.circumstances}</p>}
                                         </Form.Group>                                                
                                     </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="place">Local*</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="place"
+                                                onChange={handleChange('place')}
+                                                onBlur={handleBlur('place')}
+                                                value={values.place}
+                                            />  
+                                            {(errors.place && touched.place) &&
+                                            <p className="text-error">{errors.place}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="circumstances">Circunstâncias</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="circumstances"
+                                                onChange={handleChange('circumstances')}
+                                                onBlur={handleBlur('circumstances')}
+                                                value={values.circumstances}
+                                            />  
+                                            {(errors.circumstances && touched.circumstances) &&
+                                            <p className="text-error">{errors.circumstances}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="general_observation">Observações</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="general_observation"
+                                                onChange={handleChange('general_observation')}
+                                                onBlur={handleBlur('general_observation')}
+                                                value={values.general_observation}
+                                            />  
+                                            {(errors.general_observation && touched.general_observation) &&
+                                            <p className="text-error">{errors.general_observation}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="political_party">Partido político</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="political_party"
+                                                onChange={handleChange('political_party')}
+                                                onBlur={handleBlur('political_party')}
+                                                value={values.political_party}
+                                            />  
+                                            {(errors.political_party && touched.political_party) &&
+                                            <p className="text-error">{errors.political_party}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="political_position">Cargo</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="political_position"
+                                                onChange={handleChange('political_position')}
+                                                onBlur={handleBlur('political_position')}
+                                                value={values.political_position}
+                                            />  
+                                            {(errors.political_position && touched.political_position) &&
+                                            <p className="text-error">{errors.political_position}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="political_position">Status</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="political_position"
+                                                onChange={handleChange('political_position')}
+                                                onBlur={handleBlur('political_position')}
+                                                value={values.political_position}
+                                            />  
+                                            {(errors.political_position && touched.political_position) &&
+                                            <p className="text-error">{errors.political_position}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="service_status">Cargo do Agente</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="service_status"
+                                                onChange={handleChange('service_status')}
+                                                onBlur={handleBlur('service_status')}
+                                                value={values.service_status}
+                                            />  
+                                            {(errors.service_status && touched.service_status) &&
+                                            <p className="text-error">{errors.service_status}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="agent_position">Status do Agente</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="agent_position"
+                                                onChange={handleChange('agent_position')}
+                                                onBlur={handleBlur('agent_position')}
+                                                value={values.agent_position}
+                                            />  
+                                            {(errors.agent_position && touched.agent_position) &&
+                                            <p className="text-error">{errors.agent_position}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="coorporation">Coorporação</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="coorporation"
+                                                onChange={handleChange('coorporation')}
+                                                onBlur={handleBlur('coorporation')}
+                                                value={values.coorporation}
+                                            />  
+                                            {(errors.coorporation && touched.coorporation) &&
+                                            <p className="text-error">{errors.coorporation}</p>}
+                                        </Form.Group>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group>
+                                            <label htmlFor="qualifications">Observação qualificada</label>
+                                            <Form.Control 
+                                                type="text"
+                                                name="qualifications"
+                                                onChange={handleChange('qualifications')}
+                                                onBlur={handleBlur('qualifications')}
+                                                value={values.qualifications}
+                                            />  
+                                            {(errors.qualifications && touched.qualifications) &&
+                                            <p className="text-error">{errors.qualifications}</p>}
+                                        </Form.Group>
+                                    </Col>
                                 </Row>
                             </Card>
                         </form>
