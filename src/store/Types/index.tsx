@@ -276,5 +276,40 @@ export const initialState = {
             "document_number": 0,
         }
     ]    ,
-    idVictims: -1   
+    idVictims: -1,
+    victimsList: [
+        {
+            "occurrence": "",
+            "type": "",
+            "situation": "",
+            "type_person": "",
+            "death_date": "",
+            "name": "",
+            "age": 0,
+            "genre": "",
+            "circumstances": [
+              {
+                "id": ""
+              }
+            ],
+            "place": "",
+            "age_group": "",
+            "general_observation": "",
+            "qualifications": [
+              {
+                "id": ""
+              }
+            ],
+            "service_status": "",
+            "agent_status": "",
+            "coorporation": "",
+            "agent_position": "",
+            "unit": "",
+            "political_status": "",
+            "political_position": "",
+            "political_party": "",
+            "political_observation": "",
+            "animal_type": {}
+          }          
+    ]     
 }

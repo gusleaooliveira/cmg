@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { ADD_NEIGHBORHOODS, RootState } from "../../../../store"
 import { createCities, createNeighborhoods, createOccurrences, getByState, getCities, getNeighborhoods, getState, getStates, getStatesById } from "../../../../services"
 import './styles.css'
+import VictimsForm from './Victims/index'
+import AnimalsForm from './Animals/index'
 
 const ModalCriar : React.FC<IProps> = ({
     isModal, onHide
@@ -54,12 +56,7 @@ const ModalCriar : React.FC<IProps> = ({
         interrupted_transport: Yup.string().required('Campo  é obrigatório'),
     })
 
-    const schemaHomans = Yup.object().shape({
-        situation: Yup.string().required('Campo  é obrigatório'),
-        type_person: Yup.string().required('Campo  é obrigatório'),
-        qualification:  Yup.array().required('Campo  é obrigatório'),
-        circumstances: Yup.array().required('Campo  é obrigatório'),
-    })
+    
     
 
     function getNeighborhood(neighborhood: string){
@@ -140,7 +137,10 @@ const ModalCriar : React.FC<IProps> = ({
     const [isSucessoMsg, setSucessoMsg] = useState(false)
     const [isErroMsg, setErroMsg ] = useState(false)
 
+   
+    
     return (
+    <>
         <Modal
             show={isModal}
             onHide={onHide}
@@ -149,7 +149,9 @@ const ModalCriar : React.FC<IProps> = ({
             fullscreen
         >
             <Modal.Header closeButton></Modal.Header>
-            <Modal.Body>
+            <Modal.Body style={{
+                backgroundColor: '#796f6f'
+            }}>
                 <Formik
                     initialValues={
                         {
@@ -781,377 +783,14 @@ const ModalCriar : React.FC<IProps> = ({
                 </Formik> 
 
 
-                <Formik
-                    initialValues={
-                        {
-                            occurrence: "",
-                            type: "Person",
-                            situation: "Wounded",
-                            type_person: "Civilian",
-                            death_date: "",
-                            name: "",
-                            age: 0,
-                            genre: "",
-                            genre_s: "",
-                            circumstances_s: "",
-                            circumstances: [
-                              ""
-                            ],
-                            place: "",
-                            age_group: "",
-                            age_group_s: "",
-                            general_observation: "",
-                            qualifications: [
-                                ""
-                            ],
-                            service_status: "",
-                            agent_status: "",
-                            coorporation: "",
-                            agent_position: "",
-                            unit: "",
-                            political_status: "",
-                            political_position: "",
-                            political_party: "",
-                            political_observation: ""
-                          }
-                    }
-                    onSubmit={(dados: any)=>{
 
-                    }}
-                    validationSchema={schemaHomans}
-                >
-                    {({ handleBlur, handleChange, handleSubmit, values, touched, errors, isValid, setFieldValue })=>(
-                        <form onSubmit={handleSubmit}>
-                            <Card body>
-                                <Row>
-                                    <Col>
-                                        <Form.Group>                            
-                                            <label>
-                                                <Form.Check
-                                                    type="radio"
-                                                    name="situation"
-                                                    value="Wounded"
-                                                    onChange={()=> {
-                                                        setFieldValue('situation', 'Wounded')
-                                                    }}
-                                                    onBlur={handleBlur('situation')}
-                                                    checked={values.situation == 'Wounded'}
-                                                    label="Ferido"
-                                                />
-                                            </label>
-                                            <label>
-                                                <Form.Check
-                                                    type="radio"
-                                                    name="situation"
-                                                    value="Dead"
-                                                    onChange={()=> {
-                                                        setFieldValue('situation', 'Dead')
-                                                    }}
-                                                    onBlur={handleBlur('situation')}
-                                                    checked={values.situation == 'Dead'}
-                                                    label="Morto"
-                                                />
-                                            </label>
-                                            {(errors.situation && touched.situation) &&
-                                            <p className="text-error">{errors.situation}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>                            
-                                            <label>
-                                                <Form.Check
-                                                    type="radio"
-                                                    name="type_person"
-                                                    value="Civilian"
-                                                    onChange={()=> {
-                                                        setFieldValue('type_person', 'Civilian')
-                                                    }}
-                                                    onBlur={handleBlur('type_person')}
-                                                    checked={values.type_person == 'Civilian'}
-                                                    label="Civil"
-                                                />
-                                            </label>
-                                            <label>
-                                                <Form.Check
-                                                    type="radio"
-                                                    name="type_person"
-                                                    value="Agent"
-                                                    onChange={()=> {
-                                                        setFieldValue('type_person', 'Agent')
-                                                    }}
-                                                    onBlur={handleBlur('type_person')}
-                                                    checked={values.type_person == 'Agent'}
-                                                    label="Agente"
-                                                />
-                                            </label>
-                                            {(errors.type_person && touched.type_person) &&
-                                            <p className="text-error">{errors.type_person}</p>}
-                                        </Form.Group>
-                                    </Col>
+                <br/>
 
-                                    <Col>
-                                        <Form.Group >
-                                            <label htmlFor="qualifications">tipo de transporte</label>
-                                            <Form.Select
-                                                name="qualifications"
-                                                onChange={handleChange('qualifications')}
-                                                onBlur={handleBlur('qualifications')}                                    
-                                                value={values.qualifications}
-                                                multiple
-                                                >
-                                                {qualifications.map(chave => {
-                                                    return <option value={chave.id}>{chave.name}</option>
-                                                })}
-                                            </Form.Select>
-                                            {(errors.qualifications && touched.qualifications) &&
-                                            <p className="text-error">{errors.qualifications}</p>}
-                                        </Form.Group>
-                                    </Col> 
-                                    
-                                </Row>
-
-                                <Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="name">Nome</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="name"
-                                                onChange={handleChange('name')}
-                                                onBlur={handleBlur('name')}
-                                                value={values.name}
-                                            />  
-                                            {(errors.name && touched.name) &&
-                                            <p className="text-error">{errors.name}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="age">Idade</label>
-                                            <Form.Control 
-                                                type="number"
-                                                name="age"
-                                                min="0"
-                                                max="120"
-                                                onChange={handleChange('age')}
-                                                onBlur={handleBlur('age')}
-                                                value={values.age}
-                                            />  
-                                            {(errors.age && touched.age) &&
-                                            <p className="text-error">{errors.age}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="age_group_s">Faixa etária</label>
-                                            <Form.Select
-                                                name="age_group_s"
-                                                onChange={(e: any)=>{
-                                                    console.log(e.target.value, e.currentTarget.selectedOptions[0].label)
-                                                    setFieldValue('age_group', e.currentTarget.selectedOptions[0].label)
-                                                    setFieldValue('age_group_s', e.target.value)
-                                                }}
-                                                onBlur={handleBlur('age_group_s')}
-                                                value={values.age_group_s}
-                                                >
-                                                {age_group.map((chave: any, valor: any) => {
-                                                    return <option value={chave.id}>{chave.name}</option>
-                                                })}
-                                            </Form.Select>
-                                            {(errors.age_group_s && touched.age_group_s) &&
-                                            <p className="text-error">{errors.age_group_s}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="genre_s">Gênero</label>
-                                            <Form.Select
-                                                name="genre_s"
-                                                onChange={(e: any)=>{
-                                                    console.log(e.target.value, e.currentTarget.selectedOptions[0].label)
-                                                    setFieldValue('genre', e.currentTarget.selectedOptions[0].label)
-                                                    setFieldValue('genre_s', e.target.value)
-                                                }}
-                                                onBlur={handleBlur('genre_s')}
-                                                value={values.genre_s}
-                                                >
-                                                {genres.map((chave: any, valor: any) => {
-                                                    return <option value={chave.id}>{chave.name}</option>
-                                                })}
-                                            </Form.Select>
-                                            {(errors.genre_s && touched.genre_s) &&
-                                            <p className="text-error">{errors.genre_s}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <Form.Group >
-                                            <label htmlFor="circumstances">Motivos complementares</label>
-                                            <Form.Select
-                                                name="circumstances"
-                                                onChange={handleChange('circumstances')}
-                                                value={values.circumstances}
-                                                multiple
-                                                >
-                                                {circumstances.map(chave => {
-                                                    return <option value={chave.id}>{chave.name}</option>
-                                                })}
-                                            </Form.Select>
-                                            {(errors.circumstances && touched.circumstances) &&
-                                            <p className="text-error">{errors.circumstances}</p>}
-                                        </Form.Group>                                                
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="place">Local*</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="place"
-                                                onChange={handleChange('place')}
-                                                onBlur={handleBlur('place')}
-                                                value={values.place}
-                                            />  
-                                            {(errors.place && touched.place) &&
-                                            <p className="text-error">{errors.place}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="circumstances">Circunstâncias</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="circumstances"
-                                                onChange={handleChange('circumstances')}
-                                                onBlur={handleBlur('circumstances')}
-                                                value={values.circumstances}
-                                            />  
-                                            {(errors.circumstances && touched.circumstances) &&
-                                            <p className="text-error">{errors.circumstances}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="general_observation">Observações</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="general_observation"
-                                                onChange={handleChange('general_observation')}
-                                                onBlur={handleBlur('general_observation')}
-                                                value={values.general_observation}
-                                            />  
-                                            {(errors.general_observation && touched.general_observation) &&
-                                            <p className="text-error">{errors.general_observation}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="political_party">Partido político</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="political_party"
-                                                onChange={handleChange('political_party')}
-                                                onBlur={handleBlur('political_party')}
-                                                value={values.political_party}
-                                            />  
-                                            {(errors.political_party && touched.political_party) &&
-                                            <p className="text-error">{errors.political_party}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="political_position">Cargo</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="political_position"
-                                                onChange={handleChange('political_position')}
-                                                onBlur={handleBlur('political_position')}
-                                                value={values.political_position}
-                                            />  
-                                            {(errors.political_position && touched.political_position) &&
-                                            <p className="text-error">{errors.political_position}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="political_position">Status</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="political_position"
-                                                onChange={handleChange('political_position')}
-                                                onBlur={handleBlur('political_position')}
-                                                value={values.political_position}
-                                            />  
-                                            {(errors.political_position && touched.political_position) &&
-                                            <p className="text-error">{errors.political_position}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="service_status">Cargo do Agente</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="service_status"
-                                                onChange={handleChange('service_status')}
-                                                onBlur={handleBlur('service_status')}
-                                                value={values.service_status}
-                                            />  
-                                            {(errors.service_status && touched.service_status) &&
-                                            <p className="text-error">{errors.service_status}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="agent_position">Status do Agente</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="agent_position"
-                                                onChange={handleChange('agent_position')}
-                                                onBlur={handleBlur('agent_position')}
-                                                value={values.agent_position}
-                                            />  
-                                            {(errors.agent_position && touched.agent_position) &&
-                                            <p className="text-error">{errors.agent_position}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="coorporation">Coorporação</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="coorporation"
-                                                onChange={handleChange('coorporation')}
-                                                onBlur={handleBlur('coorporation')}
-                                                value={values.coorporation}
-                                            />  
-                                            {(errors.coorporation && touched.coorporation) &&
-                                            <p className="text-error">{errors.coorporation}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                    <Col>
-                                        <Form.Group>
-                                            <label htmlFor="qualifications">Observação qualificada</label>
-                                            <Form.Control 
-                                                type="text"
-                                                name="qualifications"
-                                                onChange={handleChange('qualifications')}
-                                                onBlur={handleBlur('qualifications')}
-                                                value={values.qualifications}
-                                            />  
-                                            {(errors.qualifications && touched.qualifications) &&
-                                            <p className="text-error">{errors.qualifications}</p>}
-                                        </Form.Group>
-                                    </Col>
-                                </Row>
-                            </Card>
-                        </form>
-                    )}
-                </Formik>
+                {/* <VictimsForm /> */}
+                <AnimalsForm />
+            
             </Modal.Body>
+        </Modal>
 
 
             <Modal
@@ -1176,7 +815,7 @@ const ModalCriar : React.FC<IProps> = ({
                     Erro ao salvar!
                 </Modal.Body>
             </Modal>
-        </Modal>
+    </>
     )
 }
 

@@ -28,7 +28,8 @@ export {
     ADD_REGIONS,
     ADD_DESTROY_VICTIMS,
     ADD_LOGIN_USER,
-    ADD_SOCIAL_NETWORKS
+    ADD_SOCIAL_NETWORKS,
+    ADD_VICTMS_LIST
 } from './actions'
 
 export { Store } from './Store'

@@ -22,7 +22,9 @@ import {
     ADD_QUALIFICATIONS,
     ADD_AGE_GROUP,
     ADD_GENRES,
-    ADD_CIRCUMSTANCES
+    ADD_CIRCUMSTANCES,
+    ADD_PLACES,
+    ADD_ANIMALS
 } from '../../store';
 import { 
     getOccurrences, 
@@ -48,10 +50,11 @@ import {
 } from '../../components';
 import { ModalCriar } from './Modals/index';
 import { Form } from 'react-bootstrap';
+import { getAnimals, getPlaces } from '../../functions/get';
 
 const Occurrences: React.FC = ({}) => {
     const dispatch = useDispatch();
-    const { neighborhoods, user, token, occurrences, regions, states, cities, sources , reasons, clippings, transports } = useSelector((state: RootState)=>state.clickState)
+    const { animals, neighborhoods, user, token, occurrences, regions, states, cities, sources , reasons, clippings, transports } = useSelector((state: RootState)=>state.clickState)
 
     const [isModalCriar, setModalCriar] = useState(false);
     const [opcoes, setOpcoes] = useState([{}]);
@@ -74,6 +77,8 @@ const Occurrences: React.FC = ({}) => {
         getAgeGroup(token).then((resp) => dispatch({type: ADD_AGE_GROUP, age_group: resp}))
         getGenres(token).then((resp)=> dispatch({type: ADD_GENRES, genres: resp}))
         getCircumstances(token).then((resp)=> dispatch({type: ADD_CIRCUMSTANCES, circumstances: resp }))
+        getPlaces(token).then((resp)=> dispatch({type: ADD_PLACES, places: resp}))
+        getAnimals((token)).then((resp)=> dispatch({type: ADD_ANIMALS, animals: resp}))
 
         getState()
             .then((resp)=>{

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Header = styled.header`
     display: flex;
     justify-content: space-between;
-    margin-top: -430px;
+    /* margin-top: -430px; */
 `;
 
 export const Nav = styled.nav`
