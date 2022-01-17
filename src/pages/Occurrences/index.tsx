@@ -5,7 +5,9 @@ import {
     NavBtn,
     ShowOccurence,
     Content,
-    List
+    List,
+    Search,
+    RadioGroup
 } from './index.style';
 import { useDispatch, useSelector } from 'react-redux';
 import { 
@@ -48,6 +50,10 @@ import {
 } from '../../components';
 import { ModalCriar } from './Modals/index';
 import { Form } from 'react-bootstrap';
+import Radio from '@mui/material/Radio';
+import { green } from '@mui/material/colors';
+
+import lupa from '../../assets/lupa.png';
 
 const Occurrences: React.FC = ({}) => {
     const dispatch = useDispatch();
@@ -116,6 +122,20 @@ const Occurrences: React.FC = ({}) => {
         }
     };
 
+    const [selectedValue, setSelectedValue] = React.useState('Todas');
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSelectedValue(event.target.value);
+    };
+  
+    const controlProps = (item: string) => ({
+      checked: selectedValue === item,
+      onChange: handleChange,
+      value: item,
+      name: 'color-radio-button-demo',
+      inputProps: { 'aria-label': item },
+    });
+
     return (
         <>
         <Header>
@@ -132,8 +152,16 @@ const Occurrences: React.FC = ({}) => {
             </ShowOccurence>
         </Header>
         <Content>
-            <DataInput id='data' htmlFor='data' name='data'/>     
-            <Form.Select
+            <Search>
+                <label htmlFor='search'>
+                    <img src={lupa} width={15}/>
+                </label>
+                <input type="search" name="search" id="search" placeholder='Pesquisar'/>
+            </Search>
+            <div>
+                <DataInput id='data' htmlFor='data' name='data'/>     
+            </div>
+            <select
                 value={regiao}
                 onChange={(e)=>{
                     setRegiao(e.target.value)
@@ -145,13 +173,61 @@ const Occurrences: React.FC = ({}) => {
                         return <option value={chave.state}>{chave.state}</option>
                     }
                 })}
-            </Form.Select>
-            <Form.Select>
+            </select>
+            <select>
                 {opcoes.map((chave: any, valor: any)=> {
                     return <option value={chave.nome}>{chave.nome}</option>
                 })}
-            </Form.Select>
+            </select>
         </Content>
+
+        <RadioGroup>
+            <div>
+                <Radio 
+                    {...controlProps('Todas')} 
+                    sx={{
+                        color: "#000",
+                        "&.Mui-checked": {
+                            color: "#28C76F"
+                        }
+                    }}
+                />Todas
+            </div>
+            <div>
+                <Radio 
+                    {...controlProps('Apenas aguardando aprovação')} 
+                    sx={{
+                        color: "#000",
+                        "&.Mui-checked": {
+                            color: "#28C76F"
+                        }
+                    }}
+                />Apenas aguardando aprovação
+            </div>
+            <div>
+                <Radio 
+                    {...controlProps('Apenas aprovadas')} 
+                    sx={{
+                        color: "#000",
+                        "&.Mui-checked": {
+                            color: "#28C76F"
+                        }
+                    }}
+                />Apenas aprovadas
+            </div>
+            <div>
+                <Radio 
+                    {...controlProps('Apenas reprovadas')}
+                    sx={{
+                        color: "#000",
+                        "&.Mui-checked": {
+                            color: "#28C76F"
+                        }
+                    }} 
+                />Apenas reprovadas
+            </div>
+        </RadioGroup>
+
         <List>
             {isTela == false ?
                 occurrences.map( (id, value) => {
