@@ -8,7 +8,6 @@ export const Container = styled.div`
         'AS MH'
         'AS CT'
     ;
-    height: 100vh;
 `;
 
 export const Content = styled.div`
