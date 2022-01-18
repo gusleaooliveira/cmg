@@ -277,6 +277,16 @@ export const initialState = {
         }
     ]    ,
     idVictims: -1,
+    animalsList: [
+        {
+            "type": "",
+            "death_date": "",
+            "situation": "",
+            "animal_type": "",
+            "name": "",
+            "circumstances": []
+        }
+    ],
     victimsList: [
         {
             "occurrence": "",

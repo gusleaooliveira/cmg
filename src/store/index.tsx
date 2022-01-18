@@ -29,7 +29,8 @@ export {
     ADD_DESTROY_VICTIMS,
     ADD_LOGIN_USER,
     ADD_SOCIAL_NETWORKS,
-    ADD_VICTMS_LIST
+    ADD_VICTMS_LIST,
+    ADD_ANIMALS_LIST
 } from './actions'
 
 export { Store } from './Store'

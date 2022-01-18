@@ -1,4 +1,4 @@
-import { ADD_VICTMS_LIST, ADD_AGE_GROUP, ADD_ANIMALS, ADD_CIRCUMSTANCES, ADD_CITIES, ADD_CLIPPINGS, ADD_COORPORATIONS, ADD_DESTROY_VICTIMS, ADD_GENRES, ADD_LOGIN_USER, ADD_NEIGHBORHOODS, ADD_OCCURRENCES, ADD_PLACES, ADD_POLICIES, ADD_POSITIONS, ADD_POSTS, ADD_QUALIFICATIONS, ADD_QUESTIONS, ADD_REASONS, ADD_REGIONS, ADD_SOCIAL_NETWORKS, ADD_SOURCES, ADD_STATES, ADD_STATISTICS, ADD_STATUS, ADD_TOKEN, ADD_TRANSPORTS, ADD_USERS, ADD_VICTIMS } from '../index'
+import { ADD_ANIMALS_LIST, ADD_VICTMS_LIST, ADD_AGE_GROUP, ADD_ANIMALS, ADD_CIRCUMSTANCES, ADD_CITIES, ADD_CLIPPINGS, ADD_COORPORATIONS, ADD_DESTROY_VICTIMS, ADD_GENRES, ADD_LOGIN_USER, ADD_NEIGHBORHOODS, ADD_OCCURRENCES, ADD_PLACES, ADD_POLICIES, ADD_POSITIONS, ADD_POSTS, ADD_QUALIFICATIONS, ADD_QUESTIONS, ADD_REASONS, ADD_REGIONS, ADD_SOCIAL_NETWORKS, ADD_SOURCES, ADD_STATES, ADD_STATISTICS, ADD_STATUS, ADD_TOKEN, ADD_TRANSPORTS, ADD_USERS, ADD_VICTIMS } from '../index'
 import { initialState } from '../../types/state/index'
 
 export const reducer = (state=initialState, action: any) => {
@@ -60,7 +60,9 @@ export const reducer = (state=initialState, action: any) => {
         case ADD_DESTROY_VICTIMS:
             return { ...state, idVictims: action.idVictims}
         case ADD_VICTMS_LIST:
-            return { ...state, victimsList: action.idVictims}
+            return { ...state, victimsList: action.victimsList}
+        case ADD_ANIMALS_LIST:
+            return { ...state, animalsList: action.animalsList}
         default:
             return { ...state }
     }

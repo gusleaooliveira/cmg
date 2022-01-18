@@ -4,7 +4,7 @@ import { Button, Card, Col, Form, Modal, Row } from "react-bootstrap"
 import * as Yup from 'yup'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { ADD_NEIGHBORHOODS, RootState } from "../../../../store"
+import { ADD_ANIMALS_LIST, ADD_NEIGHBORHOODS, RootState } from "../../../../store"
 import { createCities, createNeighborhoods, createOccurrences, getByState, getCities, getNeighborhoods, getState, getStates, getStatesById } from "../../../../services"
 import './styles.css'
 import VictimsForm from './Victims/index'
@@ -25,6 +25,13 @@ const ModalCriar : React.FC<IProps> = ({
     let [ latitudeCoord, setLatitudeCoord ] = useState(0)
     let [ longitudeCoord, setLongitudeCoord ] = useState(0)
 
+
+    useEffect(()=>{
+        dispatch({
+            type: ADD_ANIMALS_LIST,
+            animalsList: []
+        })
+    }, [])
 
     useEffect(()=>{
         navigator.geolocation.getCurrentPosition((position)=>{
@@ -137,8 +144,7 @@ const ModalCriar : React.FC<IProps> = ({
     const [isSucessoMsg, setSucessoMsg] = useState(false)
     const [isErroMsg, setErroMsg ] = useState(false)
 
-   
-    
+
     return (
     <>
         <Modal
@@ -786,7 +792,11 @@ const ModalCriar : React.FC<IProps> = ({
 
                 <br/>
 
-                {/* <VictimsForm /> */}
+                <VictimsForm />
+
+                <br/>
+                <br/>
+
                 <AnimalsForm />
             
             </Modal.Body>

@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Col, Form, Row } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import * as Yup from 'yup'
@@ -7,7 +7,7 @@ import { RootState } from '../../../../../store'
 import { IProps } from './index.types'
 
 const Victims: React.FC<IProps> = ({}) => {
-    const { age_group, places, genres  } = useSelector((state: RootState) => state.clickState)
+    const { age_group, places, genres, qualifications  } = useSelector((state: RootState) => state.clickState)
 
 
     const schemaHomans = Yup.object().shape({
@@ -16,6 +16,72 @@ const Victims: React.FC<IProps> = ({}) => {
         qualification:  Yup.array().required('Campo  é obrigatório'),
         circumstances: Yup.array().required('Campo  é obrigatório'),
     })
+
+
+
+    const [ partidos, setPartidos ] = useState([
+        {label: "PARTIDO PÁTRIA LIVRE", value:"PARTIDO PÁTRIA LIVRE" },
+        {label: "CIDADANIA", value:"CIDADANIA" },
+        {label: "PARTIDO POPULAR SOCIALISTA", value:"PARTIDO POPULAR SOCIALISTA" },
+        {label: "PARTIDO DEMOCRÁTICO TRABALHISTA", value:"PARTIDO DEMOCRÁTICO TRABALHISTA" },
+        {label: "PARTIDO REPUBLICANO DA ORDEM SOCIAL", value:"PARTIDO REPUBLICANO DA ORDEM SOCIAL" },
+        {label: "PODEMOS", value:"PODEMOS" },
+        {label: "PARTIDO TRABALHISTA CRISTÃO", value:"PARTIDO TRABALHISTA CRISTÃO" },
+        {label: "AVANTE", value:"AVANTE" },
+        {label: "PARTIDO SOCIAL LIBERAL", value:"PARTIDO SOCIAL LIBERAL" },
+        {label: "PARTIDO SOCIAL DEMOCRATICO", value:"PARTIDO SOCIAL DEMOCRATICO" },
+        {label: "SOLIDARIEDADE", value:"SOLIDARIEDADE" },
+        {label: "PARTIDO TRABALHISTA BRASILEIRO", value:"PARTIDO TRABALHISTA BRASILEIRO" },
+        {label: "PARTIDO SOCIAL DEMOCRATA CRISTÃO", value:"PARTIDO SOCIAL DEMOCRATA CRISTÃO" },
+        {label: "PARTIDO COMUNISTA DO BRASIL", value:"PARTIDO COMUNISTA DO BRASIL" },
+        {label: "UNIDADE POPULAR", value:"UNIDADE POPULAR" },
+        {label: "PARTIDO TRABALHISTA DO BRASIL", value:"PARTIDO TRABALHISTA DO BRASIL" },
+        {label: "REDE SUSTENTABILIDADE", value:"REDE SUSTENTABILIDADE" },
+        {label: "PARTIDO SOCIAL CRISTÃO", value:"PARTIDO SOCIAL CRISTÃO" },
+        {label: "PARTIDO DA CAUSA OPERARIA", value:"PARTIDO DA CAUSA OPERARIA" },
+        {label: "PROGRESSISTAS", value:"PROGRESSISTAS" },
+        {label: "DEMOCRACIA CRISTÃ", value:"DEMOCRACIA CRISTÃ" },
+        {label: "PARTIDO PATRIA LIVRE", value:"PARTIDO PATRIA LIVRE" },
+        {label: "PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO", value:"PARTIDO SOCIALISTA DOS TRABALHADORES UNIFICADO" },
+        {label: "PARTIDO COMUNISTA DO BRASIL", value:"PARTIDO COMUNISTA DO BRASIL" },
+        {label: "PARTIDO TRABALHISTA CRISTAO", value:"PARTIDO TRABALHISTA CRISTAO" },
+        {label: "PARTIDO PROGRESSISTA", value:"PARTIDO PROGRESSISTA" },
+        {label: "PARTIDO DA MULHER BRASILEIRA", value:"PARTIDO DA MULHER BRASILEIRA" },
+        {label: "MOVIMENTO DEMOCRÁTICO BRASILEIRO", value:"MOVIMENTO DEMOCRÁTICO BRASILEIRO" },
+        {label: "PARTIDO SOCIALISTA BRASILEIRO", value:"PARTIDO SOCIALISTA BRASILEIRO" },
+        {label: "PARTIDO DA REPÚBLICA", value:"PARTIDO DA REPÚBLICA" },
+        {label: "PARTIDO DO MOVIMENTO DEMOCRATICO BRASILEIRO", value:"PARTIDO DO MOVIMENTO DEMOCRATICO BRASILEIRO" },
+        {label: "PARTIDO ECOLÓGICO NACIONAL", value:"PARTIDO ECOLÓGICO NACIONAL" },
+        {label: "PARTIDO REPUBLICANO PROGRESSISTA", value:"PARTIDO REPUBLICANO PROGRESSISTA" },
+        {label: "PARTIDO ECOLÓGICO NACIONAL", value:"PARTIDO ECOLÓGICO NACIONAL" },
+        {label: "PARTIDO LIBERAL", value:"PARTIDO LIBERAL" },
+        {label: "PARTIDO NOVO", value:"PARTIDO NOVO" },
+        {label: "PATRIOTA", alue:"PATRIOTA" },
+        {label: "REPUBLICANOS", value:"REPUBLICANOS" },
+        {label: "PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO", value:"PARTIDO DO MOVIMENTO DEMOCRÁTICO BRASILEIRO" },
+        {label: "PARTIDO SOCIAL CRISTAO", value:"PARTIDO SOCIAL CRISTAO" },
+        {label: "PARTIDO DA MOBILIZAÇÃO NACIONAL", value:"PARTIDO DA MOBILIZAÇÃO NACIONAL" },
+        {label: "PARTIDO DA REPUBLICA", value:"PARTIDO DA REPUBLICA" },
+        {label: "PARTIDO HUMANISTA DA SOLIDARIEDADE", value:"PARTIDO HUMANISTA DA SOLIDARIEDADE" },
+        {label: "PARTIDO VERDE", value:"PARTIDO VERDE" },
+        {label: "PARTIDO TRABALHISTA NACIONAL", value:"PARTIDO TRABALHISTA NACIONAL" },
+        {label: "PARTIDO DEMOCRATICO TRABALHISTA", value:"PARTIDO DEMOCRATICO TRABALHISTA" },
+        {label: "PARTIDO DA CAUSA OPERÁRIA", value:"PARTIDO DA CAUSA OPERÁRIA" },
+        {label: "PARTIDO RENOVADOR TRABALHISTA BRASILEIRO", value:"PARTIDO RENOVADOR TRABALHISTA BRASILEIRO" },
+        {label: "PARTIDO SOCIALISMO E LIBERDADE", value:"PARTIDO SOCIALISMO E LIBERDADE" },
+        {label: "PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA", value:"PARTIDO DA SOCIAL DEMOCRACIA BRASILEIRA" },
+        {label: "PARTIDO COMUNISTA BRASILEIRO", value:"PARTIDO COMUNISTA BRASILEIRO" },
+        {label: "PARTIDO REPUBLICANO BRASILEIRO", value:"PARTIDO REPUBLICANO BRASILEIRO" },
+        {label: "SOLIDARIEDADE", value:"SOLIDARIEDADE" },
+        {label: "PARTIDO DA MOBILIZACAO NACIONAL", value:"PARTIDO DA MOBILIZACAO NACIONAL" },
+        {label: "PARTIDO DOS TRABALHADORES", value:"PARTIDO DOS TRABALHADORES" },
+        {label: "PARTIDO SOCIAL DEMOCRÁTICO", value:"PARTIDO SOCIAL DEMOCRÁTICO" },
+        {label: "DEMOCRATAS", value:"DEMOCRATAS" },
+        {label: "PARTIDO TRABALHISTA DO BRASIL", value:"PARTIDO TRABALHISTA DO BRASIL" },
+        {label: "PARTIDO SOCIAL DEMOCRATA CRISTAO", value:"PARTIDO SOCIAL DEMOCRATA CRISTAO" }
+    ])
+    
+
 
     return (
             <Formik
@@ -61,8 +127,8 @@ const Victims: React.FC<IProps> = ({}) => {
                     <form onSubmit={handleSubmit}>
                         <Card body>
                             <Card body>
-                                <Form.Group>
-                                    <label>
+                                <Row>
+                                    <Col>
                                         <Form.Check
                                             type="radio"
                                             name="situation"
@@ -73,8 +139,8 @@ const Victims: React.FC<IProps> = ({}) => {
                                             checked={values.situation == "Wounded"}
                                             label="Ferido"
                                         />
-                                    </label>
-                                    <label>
+                                    </Col>
+                                    <Col>
                                         <Form.Check
                                             type="radio"
                                             name="situation"
@@ -85,8 +151,25 @@ const Victims: React.FC<IProps> = ({}) => {
                                             checked={values.situation == "Dead"}
                                             label="Morto"
                                         />
-                                    </label>
-                                </Form.Group>
+                                    </Col>
+                                    <Col>
+                                            <Form.Group>
+                                                <Form.Label>Qualificação</Form.Label>
+                                                <Form.Select
+                                                    name="qualifications"
+                                                    multiple
+                                                    onChange={handleChange('qualifications')}
+                                                    value={values.qualifications}
+                                                >
+                                                    {qualifications.map((chave: any)=>{
+                                                        return <option value={chave.name}>{chave.name}</option>
+                                                    })}
+                                                </Form.Select>
+                                            </Form.Group>
+
+                                            {console.log(values.qualifications)}
+                                    </Col>
+                                </Row>
                             </Card> 
                                 <Row>
                                     <Col>

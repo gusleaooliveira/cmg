@@ -284,39 +284,49 @@ export type typeState = {
         }
     ],
     idVictims: number,
+    animalsList: [
+        {
+            type: string,
+            death_date?: string,
+            situation: string,
+            animal_type: string,
+            name: string,
+            circumstances: any[]
+        }
+    ],
     victimsList: [
         {
-            "occurrence": string,
-            "type": string,
-            "situation": string,
-            "type_person": string,
-            "death_date": string,
-            "name": string,
-            "age": number,
-            "genre": string,
-            "circumstances": [
+            "occurrence"?: string,
+            "type"?: string,
+            "situation"?: string,
+            "type_person"?: string,
+            "death_date"?: string,
+            "name"?: string,
+            "age"?: number,
+            "genre"?: string,
+            "circumstances"?: [
               {
-                "id": string
+                "id"?: string
               }
             ],
-            "place": string,
-            "age_group": string,
-            "general_observation": string,
-            "qualifications": [
+            "place"?: string,
+            "age_group"?: string,
+            "general_observation"?: string,
+            "qualifications"?: [
               {
-                "id": string
+                "id"?: string
               }
             ],
-            "service_status": string,
-            "agent_status": string,
-            "coorporation": string,
-            "agent_position": string,
-            "unit": string,
-            "political_status": string,
-            "political_position": string,
-            "political_party": string,
-            "political_observation": string,
-            "animal_type": any
+            "service_status"?: string,
+            "agent_status"?: string,
+            "coorporation"?: string,
+            "agent_position"?: string,
+            "unit"?: string,
+            "political_status"?: string,
+            "political_position"?: string,
+            "political_party"?: string,
+            "political_observation"?: string,
+            "animal_type"?: any
           }          
     ]    
 }
